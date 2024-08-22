@@ -1,0 +1,42 @@
+<form>
+  <div>
+
+  <select
+    name="code"
+    id="code"
+    [(ngModel)]="selectedOption"
+    (change)="onOptionChange($event)"
+  >
+    <option value="0">Upload From Target</option>
+    <option value="1">Download To Target</option>
+    <option value="2">Execute CMD</option>
+    <option value="3">Execute Powershell</option>
+    <option value="4" disabled>Webcam</option>
+    <option value="5">Grab Wifi Passwords</option>
+    <option value="6">Grab Browsers Passwords</option>
+    <option value="7">Grab Browsers Credit Cards</option>
+    <option value="8">Grab Browsers Cookies</option>
+    <option value="9">Execute C# Code</option>
+    <option value="10">Execute VB Code</option>
+    <option value="-1">Destroy Himself</option>
+    <option value="-2">Update Info</option>
+  </select>
+  <input
+    *ngIf="(selectedOption >= 0 && selectedOption < 4)"
+    type="text"
+    [placeholder]="firstInputPlaceHolder"
+    [(ngModel)]="firstInputValue"
+    name="firstInput"
+  />
+  
+  <input
+    *ngIf="selectedOption === 1"
+    type="text"
+    [placeholder]="secondInputPlaceHolder"
+    [(ngModel)]="secondInputValue"
+    name="secondInput"
+  />
+</div>
+<button (click)="CreateInst()" >Create</button>
+</form>
+<ngx-monaco-editor *ngIf="selectedOption === 9 || selectedOption === 10" [options]="editorOptions" [(ngModel)]="firstInputValue"></ngx-monaco-editor>

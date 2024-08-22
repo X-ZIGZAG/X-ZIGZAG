@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: Moneserrat;
+    src: url(fonts/Montserrat-Regular.woff2);
+  }
+body{
+    padding: 0;
+    margin: 0;
+    font-family:'Moneserrat' ;
+    background-color: rgb(20, 20, 20);
+    color: white;
+}
+input {
+    padding: 10px;
+    width: 220px;
+    border: 0;color: white;    background-color: rgba(59, 59, 59, 0.24);
+    border-bottom: 1px solid rgb(172, 170, 170);
+    border-radius: 7px 7px 0 0 ;
+}

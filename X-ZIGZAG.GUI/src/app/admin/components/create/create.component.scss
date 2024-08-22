@@ -1,0 +1,25 @@
+.content{
+    display: flex;
+    align-items: center;
+    gap:55px;
+    width: 100%;
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+    }
+    button{
+        background-color: rgb(23, 124, 45);
+        color: white;
+        border: 1px solid rgb(109, 109, 109);
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 80px;
+      }
+      button:hover{
+        background-color: rgb(199, 199, 199);
+        color: black;
+      }
+  }

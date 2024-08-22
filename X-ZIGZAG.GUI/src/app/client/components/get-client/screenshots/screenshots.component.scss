@@ -1,0 +1,125 @@
+.imagePreview{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 175px;
+    gap:15px;
+    border-radius: 5px;
+    border:1px solid rgba(128, 128, 128, 0.158);
+    cursor: pointer;
+    img{
+        width: 200px;
+        max-height: 150px;
+    }
+}
+.imagePreview:hover{
+    background-color: rgb(53, 53, 53);
+}
+.ErrorMessage{
+    color: red;
+}
+h2{
+    background-color: rgba(128, 128, 128, 0.158);
+    border-radius: 9px;
+    padding: 15px;
+    cursor: pointer;
+}
+h2:hover{
+    background-color: rgb(53, 53, 53);
+
+}
+.modal {
+    display: block; /* Angular handles visibility */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100dvw;
+    height: 100dvh;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #202020;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 9px;
+    max-width: 1200px;
+    max-height: 900px;
+    img{
+        max-width: 1200px;
+        max-height: 900px;
+        
+    }
+    
+  }
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .ScreenshotRequest{
+    margin-top: 25px;
+    a{
+      border: 1px solid rgb(182, 182, 182);
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 15px;
+    }
+    a:hover{
+      background-color: aliceblue;
+      color: black;
+    }
+  }
+
+  .modal-content-settings{
+    background-color: #202020;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 9px;
+    max-width: 500px;
+    max-height: 900px;
+    .updateDuration{
+      display: flex; gap: 10px ;align-items: center;
+    }
+    .updateDurectionBTN{
+      border: 1px solid rgb(175, 175, 175);
+      background-color: rgb(2, 92, 2);
+      width: 65px;
+      padding: 6px;
+      font-size: 13px;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+
+    }
+    .updateDurectionBTN:hover{
+      border: 1px solid gray;
+      background-color: rgb(5, 172, 5);
+      
+    }
+    .updateDurationForm{
+      padding: 10px 0 0 0;
+      display: flex;
+      gap: 15px;
+      flex-direction: column;
+    }
+  }

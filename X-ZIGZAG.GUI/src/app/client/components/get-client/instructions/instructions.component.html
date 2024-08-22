@@ -1,0 +1,30 @@
+<app-create-instruction [ClientId]="ClientId" (ReloadData)="LoadData()"></app-create-instruction>
+<div *ngIf="ErrorMessage!=''">
+    {{ErrorMessage}}
+</div>
+<div *ngIf="isModalOpen" class="modal" (click)="onBackgroundClick($event)">
+  <div class="modal-content">
+    <span class="close" (click)="onCloseClick()">&times;</span>
+    <h4>ID: {{ ActionID }}</h4>
+    <h2>{{ ActionName }}</h2>
+    <h3>Args:</h3>
+    <textarea readonly>{{ ActionsArgs }}</textarea>
+  </div>
+</div>
+<div class="DeleteAll">
+  <button (click)="DeleteAllActions()">Delete All</button>
+</div>
+<table id="instructions">
+    <tr>
+      <th>ID</th>
+      <th>Action</th>
+      <th>Args</th>
+      <th></th>
+    </tr>
+        <tr class="row" *ngFor="let instruction of Instructions">
+          <td (click)="ShowInstruction(instruction)">{{ instruction.instructionId }}</td>
+          <td (click)="ShowInstruction(instruction)">{{ GetActionDescription(instruction.code) }}</td>
+          <td (click)="ShowInstruction(instruction)">{{ truncate(instruction.functionArgs) }}</td>
+          <td><button (click)="DeleteAction(instruction.instructionId)">X</button></td>
+        </tr>
+</table>

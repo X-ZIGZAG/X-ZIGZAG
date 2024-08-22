@@ -1,0 +1,12 @@
+<div class="content">
+  <div *ngIf="ErrorMessage != ''">
+    {{ ErrorMessage }}
+  </div>
+    <h3>Update Admin Info</h3>
+  <div class="usernameUp">
+    <label>Username :</label><input type="text" name="NewUsername" placeholder="Username" [(ngModel)]="NewUsername" > <button (click)="UpdateUsername()">💾</button>
+  </div>
+  <div class="usernameUp">
+    <label>Password :</label><input type="password" name="NewPassword" placeholder="Password" [(ngModel)]="NewPassword" > <button (click)="UpdatePassword()">💾</button>
+  </div>
+</div>

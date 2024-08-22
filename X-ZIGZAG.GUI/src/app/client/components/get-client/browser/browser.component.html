@@ -1,0 +1,92 @@
+<div class="content">
+  <div class="DisplayButtons">
+    <div (click)="DisplayCookies()" [class.selected]="showCookies">Cookies</div>
+    <div (click)="DisplayCreditCards()"  [class.selected]="showCreditCard">Credit Cards</div>
+    <div (click)="DisplayPasswords()"  [class.selected]="showPasswords">Passwords</div>
+  </div>
+  <div *ngIf="isModalOpen" class="modal" (click)="onBackgroundClick($event)">
+    <div class="modal-content">
+      <span class="close" (click)="onCloseClick()">&times;</span>
+      <h2>{{ modalTitle }}</h2>
+      <textarea readonly>{{ textareaContent }}</textarea>
+    </div>
+  </div>
+  <!-- 
+    <div class="Request">
+        <div (click)="DisplayCookies()">
+            Request All
+        </div>
+        <div (click)="DisplayCookies()">
+            Request Cookies
+        </div>
+        <div (click)="DisplayCreditCards()">
+            Request Credit Cards
+        </div>
+        <div (click)="DisplayPasswords()">
+            Request Passwords
+        </div>
+    </div>
+    -->
+  <!--TODO: Filter By Browser Name-->
+  <div *ngif="loading">Loading...</div>
+  <div *ngIf="errorMessage != ''">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="!loading">
+    <div *ngIf="showCookies" id="cookies">
+      <h2>Cookies</h2>
+      <table>
+        <tr>
+          <th>Browser Name</th>
+          <th>Origin</th>
+          <th>Name</th>
+          <th>Value</th>
+          <th>Expire Date</th>
+        </tr>
+        <tr *ngFor="let cookie of Cookies" (click)="showCookie(cookie)">
+          <td>{{ cookie.browser }}</td>
+          <td>{{ truncate(cookie.origin) }}</td>
+          <td>{{ truncate(cookie.name) }}</td>
+          <td>{{ truncate(cookie.value) }}</td>
+          <td>{{ convertCookieExpiry(cookie.expire) | date : "medium" }}</td>
+        </tr>
+      </table>
+    </div>
+    <div *ngIf="showCreditCard" id="CreditCards">
+      <h2>Credit Cards</h2>
+      <table>
+        <tr>
+          <th>Browser Name</th>
+          <th>Origin</th>
+          <th>Name</th>
+          <th>Value</th>
+          <th>Expire Date</th>
+        </tr>
+        <tr *ngFor="let card of CreditCards" (click)="showCard(card)">
+          <td>{{ card.browser }}</td>
+          <td>{{ truncate(card.origin) }}</td>
+          <td>{{ truncate(card.name) }}</td>
+          <td>{{ card.value }}</td>
+          <td>{{ card.expire }}</td>
+        </tr>
+      </table>
+    </div>
+    <div *ngIf="showPasswords" id="Passwords">
+      <h2>Passwords</h2>
+      <table>
+        <tr>
+          <th>Browser Name</th>
+          <th>Website</th>
+          <th>Login</th>
+          <th>Password</th>
+        </tr>
+        <tr *ngFor="let pass of Passwords" (click)="showPass(pass)">
+          <td>{{ pass.browser }}</td>
+          <td>{{ truncate(pass.url ?? "", 30) }}</td>
+          <td>{{ truncate(pass.login ?? "") }}</td>
+          <td>{{ truncate(pass.value) }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

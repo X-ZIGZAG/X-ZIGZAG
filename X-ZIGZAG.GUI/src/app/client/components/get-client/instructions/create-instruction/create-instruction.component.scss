@@ -1,0 +1,37 @@
+form {
+  width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  select {
+    background-color: rgb(27, 27, 27);
+    cursor: pointer;
+    padding: 10px;
+    color: whitesmoke;
+    border-radius: 8px;
+  }
+  input {
+    margin-left:15px;
+    width: 250px;
+  }
+  select:hover {
+    background-color: rgb(22, 22, 22);
+  }
+  button{
+    background-color: rgb(23, 124, 45);
+    color: white;
+    border: 1px solid rgb(109, 109, 109);
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 80px;
+  }
+  button:hover{
+    background-color: rgb(199, 199, 199);
+    color: black;
+  }
+}
+ngx-monaco-editor{
+  width: 1200px;
+  height: 500px;
+}

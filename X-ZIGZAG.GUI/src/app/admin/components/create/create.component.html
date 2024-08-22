@@ -1,0 +1,15 @@
+
+<div *ngIf="ErrorMessage != ''">
+  {{ ErrorMessage }}
+</div>
+<div class="content">
+  <div>
+    <label for="NewUsername" > Username : </label>
+    <input type="text" id="NewUsername" name="NewUsername" [(ngModel)]="Username" > 
+  </div>
+  <div>
+    <label for="NewPassword" > Password : </label>
+    <input type="password" name="NewPassword" id="NewPassword" [(ngModel)]="Password" > 
+  </div>
+  <button (click)="CreateUser()">Create</button>
+</div>

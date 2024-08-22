@@ -1,0 +1,31 @@
+<div *ngIf="ErrorMessage!=''">
+    {{ErrorMessage}}
+</div>
+<div *ngIf="isModalOpen" class="modal" (click)="onBackgroundClick($event)">
+  <div class="modal-content">
+    <span class="close" (click)="onCloseClick()">&times;</span>
+    <h4>ID: {{ ActionID }}</h4>
+    <h2>{{ ActionName }}</h2>
+    <h3>Args:</h3>
+    <textarea readonly>{{ ActionsArgs }}</textarea>
+    <h3>Output:</h3>
+    <textarea readonly>{{ ActionsOutput }}</textarea>
+    
+  </div>
+</div>
+<table id="Results">
+    <tr>
+      <th>ID</th>
+      <th>Code</th>
+      <th>Args</th>
+      <th>Output</th>
+      <th>Date</th>
+    </tr>
+        <tr class="row" *ngFor="let resp of ResultsList" (click)="ShowResult(resp)">
+          <td>{{ resp.instructionId }}</td>
+          <td>{{ GetActionDescription(resp.code) }}</td>
+          <td>{{ truncate(resp.functionArgs??"") }}</td>
+          <td>{{ truncate(resp.output??"") }}</td>
+          <td>{{ resp.resultDate | date:'medium' }}</td>
+        </tr>
+  </table>

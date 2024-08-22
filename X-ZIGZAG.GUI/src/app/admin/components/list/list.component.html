@@ -1,0 +1,19 @@
+<div *ngIf="ErrorMessage != ''">
+  {{ ErrorMessage }}
+</div>
+<div class="content">
+  <app-admin-create (ReloadData)="LoadData()"></app-admin-create>
+  <table id="admins">
+    <tr>
+      <th>Username</th>
+      <th>Action</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let username of Admins">
+      <td>{{ username }}</td>
+      <td><button routerLink="/Admin/Update/{{ username }}" class="update">Update</button></td>
+      <td><button (click)="deleteUser(username)" class="delete">x</button></td>
+      
+    </tr>
+  </table>
+</div>

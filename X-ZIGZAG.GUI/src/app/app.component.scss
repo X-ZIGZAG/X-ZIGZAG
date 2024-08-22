@@ -1,0 +1,22 @@
+.menu {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+    a{
+        text-decoration: none;
+        color: white;
+        margin: 0 25px;
+        padding: 2px;
+    }
+    a:hover{
+        border-bottom: 1px solid white;
+    }
+    .layer{
+        width: 800px;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgb(173, 173, 173);
+    }
+    
+}

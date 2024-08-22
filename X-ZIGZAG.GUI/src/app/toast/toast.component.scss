@@ -1,0 +1,17 @@
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #117204;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    opacity: 0.9;
+    z-index: 1000;
+  }
+  .greenBg{
+    background-color: #117204;
+  }
+  .redBg{
+    background-color: #722304;
+  }

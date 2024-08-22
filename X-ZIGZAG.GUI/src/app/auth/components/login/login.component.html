@@ -1,0 +1,16 @@
+<div *ngIf="Checking">
+    Connecting...
+</div>
+<div class="Login">
+    <div *ngIf="!Checking" >
+        <h1>Login</h1>
+        <div *ngIf="showErrorMessage" class="ErrorMessage">
+            {{ErrorMessage}}
+        </div>
+        <form [formGroup]="loginForm" (submit)="onLogin()">
+            <input type="text" formControlName="username" placeholder="Username" />
+            <input type="password" formControlName="password" placeholder="Password" />
+            <button type="submit">Connect</button>
+        </form>
+    </div>
+</div>

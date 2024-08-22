@@ -1,0 +1,30 @@
+.content{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap:25px;
+    width: 100%;
+  }
+  .usernameUp{
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    align-items: center;
+    label{
+        width: 95px;
+        text-align: end;
+    }
+    button{
+        padding: 1px;
+        border-radius: 5px;
+        background-color: transparent;
+        border: 0px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+    button:hover{
+        background-color: greenyellow;
+    }
+  }
+  *{
+  }

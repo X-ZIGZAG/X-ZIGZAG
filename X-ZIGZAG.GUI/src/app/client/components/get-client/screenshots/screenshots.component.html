@@ -1,0 +1,49 @@
+<div *ngIf="ErrorMessage != ''" class="ErrorMessage">
+  {{ ErrorMessage }}
+</div>
+<div *ngIf="isModalOpen" class="modal" (click)="onBackgroundClick($event)">
+  
+    <div class="modal-content">
+      <span class="close" (click)="isModalOpen=false">&times;</span>
+
+        <a *ngIf="screenshotUrl" [href]="screenshotUrl" target="_blank">
+            <img [src]="screenshotUrl" alt="Screenshot" />
+          </a>
+    </div>
+  </div>
+  <div class="ScreenshotRequest">
+  <a (click)="OneScreenShot()">Request One ScreenShot </a>
+  <a (click)="Settings()">Custom Duration </a>
+  </div>
+    
+<div *ngIf="showSettings" id="settings">
+
+</div>
+<div *ngIf="ScreensList != null && ScreensList.screens != null">
+  <div *ngFor="let screen of ScreensList.screens">
+    <h2 (click)="ShowScreen(screen.id)">Screen ID : {{ screen.id }}</h2>
+    <span *ngIf="screen.screenshots != null && currentScreenIndex==screen.id">
+      <div *ngFor="let ScreenShot of screen.screenshots" style="display: inline-block;">
+        <div (click)="ShowImage(screen.id, ScreenShot.screenshotId)" class="imagePreview">
+
+            <img [src]="screenShotsPreviewMap.get(screen.id+'-'+ScreenShot.screenshotId)"  />
+            <div>
+                {{ ScreenShot.screenshotId }}
+            </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+<div *ngIf="showSettings" class="modal" (click)="onSettingsBackgroundClick($event)">
+  <div class="modal-content-settings">
+    <span class="close" (click)="Settings()">&times;</span>
+    <div class="updateDurationForm">
+      <div class="updateDuration">
+        <label for="duration">Duration : </label>
+        <input type="number" id="duration" [(ngModel)]="ScreensList.duration" />
+      </div>
+      <div class="updateDurectionBTN" (click)="CustomDuration()">Update</div>
+    </div>
+  </div>
+</div>

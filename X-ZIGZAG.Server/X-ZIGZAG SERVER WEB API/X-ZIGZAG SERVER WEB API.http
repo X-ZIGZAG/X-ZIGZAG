@@ -1,0 +1,6 @@
+@X_ZIGZAG_SERVER_WEB_API_HostAddress = http://localhost:5089
+
+GET {{X_ZIGZAG_SERVER_WEB_API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -49,7 +49,9 @@ For a comprehensive installation guide, please refer to the release section of o
 Get started with ease by following the detailed instructions provided there!
 
 ## 📃 To-Do List
-
+- [ ] 👻 Improve Undetectability
+- [ ] ⚡ Optimize Size
+- [ ] 📸 Webcam (Not stable and too risky)
 - [ ] 📸 Webcam (Not stable and too risky)
 - [ ] 📝 Keylogger (Doesn't support all keyboard layouts)
 - [ ] 📄 Firefox Browser Data

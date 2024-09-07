@@ -44,7 +44,7 @@ The use of X-ZIGZAG on any system without explicit permission from the system’
 
 ## 🚀 Installation
 
-For a comprehensive installation guide, please refer to the release section of our GitHub repository: [X-ZIGZAG Releases](releases).
+For a comprehensive installation guide, please refer to the release section of our GitHub repository: [X-ZIGZAG Releases](https://github.com/X-ZIGZAG/X-ZIGZAG/releases/).
 
 Get started with ease by following the detailed instructions provided there!
 

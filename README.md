@@ -52,7 +52,6 @@ Get started with ease by following the detailed instructions provided there!
 - [ ] 👻 Improve Undetectability
 - [ ] ⚡ Optimize Size
 - [ ] 📸 Webcam (Not stable and too risky)
-- [ ] 📸 Webcam (Not stable and too risky)
 - [ ] 📝 Keylogger (Doesn't support all keyboard layouts)
 - [ ] 📄 Firefox Browser Data
 - [ ] 🔴 Live Interaction (Using sockets)

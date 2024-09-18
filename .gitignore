@@ -1,16 +1,11 @@
 ﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+# Optimized .gitignore file for X-ZIGZAG Project
 ################################################################################
 
-/X-ZIGZAG.Server/X-ZIGZAG SERVER WEB API/obj/Release/net8.0
-/X-ZIGZAG.Server/X-ZIGZAG SERVER WEB API/obj/Debug/net8.0
-/X-ZIGZAG.GUI/.angular/cache/18.2.0
-/X-ZIGZAG.GUI/node_modules
-/X-ZIGZAG.Server/.vs
-/X-ZIGZAG.Server/X-ZIGZAG SERVER WEB API/bin/Debug/net8.0
-/X-ZIGZAG.Server/X-ZIGZAG SERVER WEB API/obj
-/X-ZIGZAG.Client/X-ZIGZAG CLIENT/obj
-/X-ZIGZAG.Client/X-ZIGZAG CLIENT/bin/Debug
-/X-ZIGZAG.Client/.vs/X-ZIGZAG CLIENT
-/.vs
+# Ignore build outputs
+**/bin/
+**/obj/
+.vs/
+/X-ZIGZAG.GUI/.angular/
+/X-ZIGZAG.GUI/node_modules/
 /X-ZIGZAG.GUI/src/environments/environment.development.ts

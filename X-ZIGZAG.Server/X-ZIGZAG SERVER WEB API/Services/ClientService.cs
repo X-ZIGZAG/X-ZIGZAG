@@ -189,15 +189,15 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                     IpAddress = Info.IpAddress,
                     Version = Info.Version,
                     SystemSpecs = Info.SystemSpecs,
-                    Created = DateTimeOffset.Now,
-                    LatestUpdate = DateTimeOffset.Now,
+                    Created = DateTimeOffset.UtcNow,
+                    LatestUpdate = DateTimeOffset.UtcNow,
                 };
                 var newClientConfig = new CheckSetting {
                     Id=Info.Id,
                     Screenshot = 0,
                     CheckDuration = 60,
                     CheckCmds=false,
-                    LatestPing= DateTimeOffset.Now,
+                    LatestPing= DateTimeOffset.UtcNow,
                 };
                 await _context.CheckSettings.AddAsync(newClientConfig);
                 await _context.SystemsInfo.AddAsync(newClient);
@@ -216,7 +216,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 UserData.IpAddress=Info.IpAddress;
                 UserData.Version=Info.Version;
                 UserData.SystemSpecs=Info.SystemSpecs;
-                UserData.LatestUpdate = DateTimeOffset.Now;
+                UserData.LatestUpdate = DateTimeOffset.UtcNow;
                 _context.SystemsInfo.Update(UserData);
                 await _context.Instructions.Where(inst => inst.ClientId.Equals(Info.Id) && inst.InstructionId.Equals(instructionId) && inst.Code == -2).ExecuteDeleteAsync();
                 await _context.SaveChangesAsync();
@@ -229,7 +229,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
             
             if(CheckConfig != null)
             {
-                CheckConfig.LatestPing = DateTimeOffset.Now;
+                CheckConfig.LatestPing = DateTimeOffset.UtcNow;
                 var PingResponse = new ClientPingResponse { NextPing=CheckConfig.CheckDuration};
                 if (CheckConfig.Screenshot != 0)
                 {

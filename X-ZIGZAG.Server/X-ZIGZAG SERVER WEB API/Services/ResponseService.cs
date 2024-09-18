@@ -102,7 +102,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                     ClientId = uuid,
                     InstructionId = instructionId,
                     Code = InstructionGet.Code,
-                    ResultDate= DateTimeOffset.Now,
+                    ResultDate= DateTimeOffset.UtcNow,
                     FunctionArgs=InstructionGet.FunctionArgs,
                 };
                 await _context.Results.AddAsync(result);
@@ -120,7 +120,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                     ClientId = uuid,
                     InstructionId = instructionId,
                     Code = InstructionGet.Code,
-                    ResultDate = DateTimeOffset.Now,
+                    ResultDate = DateTimeOffset.UtcNow,
                     FunctionArgs = InstructionGet.FunctionArgs,
                     Output= output
                 };

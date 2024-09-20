@@ -12,8 +12,8 @@ using X_ZIGZAG_SERVER_WEB_API.Data;
 namespace X_ZIGZAG_SERVER_WEB_API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240802225441_Init")]
-    partial class Init
+    [Migration("20240920205006_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,9 @@ namespace X_ZIGZAG_SERVER_WEB_API.Migrations
 
                     b.Property<string>("FunctionArgs")
                         .HasColumnType("text");
+
+                    b.Property<bool>("Notify")
+                        .HasColumnType("boolean");
 
                     b.HasKey("ClientId", "InstructionId");
 

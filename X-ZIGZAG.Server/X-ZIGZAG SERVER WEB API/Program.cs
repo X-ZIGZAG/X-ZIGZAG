@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using X_ZIGZAG_SERVER_WEB_API.Data;
 using X_ZIGZAG_SERVER_WEB_API.Filters;
 using X_ZIGZAG_SERVER_WEB_API.Interfaces;
@@ -9,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddMemoryCache();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
@@ -43,8 +48,10 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<MyDbContext>();
+        var cache = services.GetRequiredService<IMemoryCache>();
+        var hostEnvironment = services.GetRequiredService<IHostEnvironment>();
         context.Database.Migrate();
-        DbInitializer.Initialize(context);
+        DbInitializer.Initialize(context,cache, hostEnvironment);
     }
     catch (Exception ex)
     {

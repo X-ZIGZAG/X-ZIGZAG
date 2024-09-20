@@ -62,11 +62,15 @@ export class CreateInstructionComponent {
       }
       case 9: {
         this.firstInputPlaceHolder = 'C# Code';
-        this.firstInputValue=`public class Script{
-  public void Execute(){
+        this.firstInputValue=`using System.Threading.Tasks;
+public class Script
+{
+  public static async Task<string> ExecuteAsync{
       // 1. Make Sure There's A Class With the name Script
       // 2. The Function that will be executed must be named "Execute" Similiar To Main Function
       // 3. Everything Else Is the same
+
+      // return "output";
   }
 }`
         this.editorOptions = {theme: 'vs-dark', language: 'csharp'};
@@ -92,13 +96,14 @@ End Class`
     var valueToSubmit = '';
     if (this.ClientId != null) {
       switch (this.selectedOption) {
+        
         case 0: {
           valueToSubmit = this.firstInputValue;
           break;
         }
         case 1: {
           valueToSubmit =
-            this.firstInputValue + '*.-.*' + this.secondInputValue;
+            this.firstInputValue + '*.&-&.*' + this.secondInputValue;
           break;
         }
         case 2: {
@@ -121,6 +126,7 @@ End Class`
       const createInst = this.clientService.CreateClientAction(this.ClientId, {
         code: this.selectedOption,
         functionArgs: valueToSubmit,
+        notify:true,
       });
       if (createInst != null) {
         createInst.subscribe(

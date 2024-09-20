@@ -6,6 +6,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.ViewModels.Request
     {
         [Required]
         public required short Code { get; set; }
+        [Required]
+        public required bool Notify { get; set; }
         public string? FunctionArgs { get; set; }
     }
 }

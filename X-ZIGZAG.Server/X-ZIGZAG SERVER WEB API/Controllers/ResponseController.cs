@@ -68,10 +68,10 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             await responseService.StoreFile(uuid, instructionId, file);
             return Ok();
         }
-        [HttpPost("{uuid}/{instructionId}")]
-        public async Task<IActionResult> ResponseOutput(string uuid, long instructionId,[FromBody] ResponseNotifyVM ResponseNotify)
+        [HttpPost("{uuid}/{instructionId}/{Code}")]
+        public async Task<IActionResult> ResponseOutput(string uuid,short Code, long instructionId,[FromBody] ResponseNotifyVM ResponseNotify)
         {
-            await responseService.ResponseOutput(uuid, instructionId, ResponseNotify.output);
+            await responseService.ResponseOutput(uuid, instructionId, Code, ResponseNotify.output, ResponseNotify.args);
             return Ok();
         }
         [HttpPost("Browser/Password/{uuid}/{instructionId}")]

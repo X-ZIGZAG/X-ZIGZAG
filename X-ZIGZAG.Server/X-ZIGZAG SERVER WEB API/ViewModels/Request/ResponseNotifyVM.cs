@@ -3,5 +3,6 @@
     public class ResponseNotifyVM
     {
         public string? output { get; set; }
+        public string? args { get; set; }
     }
 }

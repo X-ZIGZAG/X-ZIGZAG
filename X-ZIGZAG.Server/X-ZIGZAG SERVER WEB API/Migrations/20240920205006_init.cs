@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace X_ZIGZAG_SERVER_WEB_API.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -80,6 +80,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Migrations
                     ClientId = table.Column<string>(type: "text", nullable: false),
                     InstructionId = table.Column<long>(type: "bigint", nullable: false),
                     Code = table.Column<short>(type: "smallint", nullable: false),
+                    Notify = table.Column<bool>(type: "boolean", nullable: false),
                     FunctionArgs = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>

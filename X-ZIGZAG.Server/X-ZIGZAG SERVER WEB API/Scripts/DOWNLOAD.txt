@@ -1,0 +1,34 @@
+﻿﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+public class Script
+{
+    public static async Task<string> ExecuteAsync(string savePath,string fileUrl)
+    {
+		try
+		{
+			using (WebClient client = new WebClient())
+			{
+				await client.DownloadFileTaskAsync(new Uri(fileUrl), savePath);
+			}
+			return "Download Done";
+		}
+		catch (WebException ex)
+		{
+			return "Error downloading file: " + ex.Message;
+		}
+		catch (IOException ex)
+		{
+			return "Error saving file: " + ex.Message;
+		}
+		catch (Exception ex)
+		{
+			return "An unexpected error occurred: " + ex.Message;
+		}
+    }
+
+}

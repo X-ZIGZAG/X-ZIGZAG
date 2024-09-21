@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
-
 namespace X_ZIGZAG_CLIENT
 {
     internal class Actions
@@ -25,6 +24,13 @@ namespace X_ZIGZAG_CLIENT
             compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Runtime.dll");
             compilerParams.ReferencedAssemblies.Add("System.Threading.Tasks.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Net.Http.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Web.Extensions.dll");
+            compilerParams.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Security.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Dynamic.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Core.dll");
+            compilerParams.ReferencedAssemblies.Add("mscorlib.dll");
 
             CompilerResults results = codeProvider.CompileAssemblyFromSource(compilerParams, code);
 

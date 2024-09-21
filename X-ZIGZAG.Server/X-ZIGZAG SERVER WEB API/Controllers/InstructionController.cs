@@ -15,6 +15,12 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
         public InstructionController(IInstructionService instructionService) {
             this.instructionService = instructionService;
         }
+        // Get Intructions By ID
+        [HttpGet("id")]
+        public async Task<IActionResult> GetInstructionID()
+        {
+            return Ok(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        }
         // Get Client Intructions By ID
         [HttpGet("{ClientId}")]
         public async Task<IActionResult> Get(string ClientId)

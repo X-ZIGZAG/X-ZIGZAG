@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("X-ZIGZAG CLIENT")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("X-ZIGZAG CLIENT")]
+[assembly: AssemblyTitle("frameless")]
+[assembly: AssemblyDescription("frameless")]
+[assembly: AssemblyConfiguration("frameless")]
+[assembly: AssemblyCompany("frameless")]
+[assembly: AssemblyProduct("frameless")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("frameless")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6e2ffe19-2d95-4f93-b6a4-94361f927a65")]
+[assembly: Guid("01c45663-0238-4bc3-b0fa-31cb300c25c2")]
 
 // Version information for an assembly consists of the following four values:
 //

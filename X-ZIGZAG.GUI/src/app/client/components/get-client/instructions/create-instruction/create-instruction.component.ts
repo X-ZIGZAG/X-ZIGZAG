@@ -100,16 +100,11 @@ End Class`;
   }
   CreateInst() {
     this.ErrorMessage = "";
-    var valueToSubmit = "";
-    var notify = true;
+    var valueToSubmit = null;
     if (this.ClientId != null) {
       switch (this.selectedOption) {
         case 0: {
           valueToSubmit =
-            environment.apiUrl +
-            "Response/File/" +
-            this.ClientId +
-            "*.&-&.*" +
             this.firstInputValue;
           break;
         }
@@ -134,22 +129,10 @@ End Class`;
           valueToSubmit = this.firstInputValue;
           break;
         }
-        case 6:{
-          valueToSubmit = environment.apiUrl + "Response/Browser/Password/" + this.ClientId;
-          break;
-        }
-        case 7:{
-          valueToSubmit = environment.apiUrl + "Response/Browser/CreditCard/" + this.ClientId;
-          break;
-        }
-        case 8:
-          valueToSubmit = environment.apiUrl + "Response/Browser/Cookies/" + this.ClientId;
-          break;
       }
       const createInst = this.clientService.CreateClientAction(this.ClientId, {
         code: this.selectedOption,
         functionArgs: valueToSubmit,
-        notify: notify,
       });
       if (createInst != null) {
         createInst.subscribe(

@@ -79,7 +79,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Ok(); // Fake (Bad Request)
+                return Ok(); // Fake (Bad Request)
             }
             byte[] Data = Convert.FromBase64String(pass.Data);
             byte[] Key = Convert.FromBase64String(pass.Key);
@@ -91,7 +91,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Ok();  // Fake (Bad Request)
+                return Ok();  // Fake (Bad Request)
             }
             byte[] Data = Convert.FromBase64String(pass.Data);
             byte[] Key = Convert.FromBase64String(pass.Key);
@@ -103,7 +103,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Ok();  // Fake (Bad Request)
+                return Ok();  // Fake (Bad Request)
             }
             byte[] Data = Convert.FromBase64String(pass.Data);
             byte[] Key = Convert.FromBase64String(pass.Key);

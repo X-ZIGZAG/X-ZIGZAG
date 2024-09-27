@@ -253,7 +253,6 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                             InstructionId = i.InstructionId,
                             Code = i.Code,
                             Script = script,
-                            Notify = i.Notify,
                             FunctionArgs = i.FunctionArgs
                         };
                         }).ToList();

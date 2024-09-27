@@ -1,8 +1,17 @@
 ﻿using System.Threading.Tasks;
+
 public class Script
 {
-    public static async Task<string> ExecuteAsync()
+    public static async Task<object> ExecuteAsync()
     {
-        return " ";
+        // Create an anonymous object with int, string, and short values
+        var obj = new
+        {
+            IntValue = 42,
+            StringValue = "Hello, World!",
+            ShortValue = (short)123
+        };
+
+        return obj;
     }
 }

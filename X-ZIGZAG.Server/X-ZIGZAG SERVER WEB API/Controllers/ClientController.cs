@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using X_ZIGZAG_SERVER_WEB_API.Filters;
 using X_ZIGZAG_SERVER_WEB_API.Interfaces;
+using X_ZIGZAG_SERVER_WEB_API.Models;
 using X_ZIGZAG_SERVER_WEB_API.ViewModels.Request;
 namespace X_ZIGZAG_SERVER_WEB_API.Controllers
 {
@@ -116,7 +117,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             {
                 return NotFound();
             }
-            return Ok(result);
+
+            return Ok(new { Instructions = result.Instructions, Screenshot = result.Screenshot, NextPing = result.NextPing });
         }
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] ClientLoginVM loginInfo)

@@ -21,7 +21,6 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 {
                     InstructionId = i.InstructionId,
                     Code = i.Code,
-                    Notify = i.Notify,
                     FunctionArgs = i.FunctionArgs
                 })
                 .ToListAsync();
@@ -40,7 +39,6 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                     ClientId = clientId,
                     InstructionId = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                     Code = inst.Code,
-                    Notify = inst.Notify,
                     FunctionArgs = inst.FunctionArgs,
                 };
                 checkIfClientExist.CheckCmds = true;

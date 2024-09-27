@@ -143,9 +143,6 @@ namespace X_ZIGZAG_SERVER_WEB_API.Migrations
                     b.Property<string>("FunctionArgs")
                         .HasColumnType("text");
 
-                    b.Property<bool>("Notify")
-                        .HasColumnType("boolean");
-
                     b.HasKey("ClientId", "InstructionId");
 
                     b.ToTable("Instructions");

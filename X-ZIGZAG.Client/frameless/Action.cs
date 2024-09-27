@@ -9,7 +9,7 @@ namespace frameless
 {
     internal class Action
     {
-        public static async Task<string> ExecuteCsharpCodeAsync(string code, object[] parameters)
+        public static async Task<object> ExecuteCsharpCodeAsync(string code, object[] parameters)
         {
             var codeProvider = new CSharpCodeProvider();
             var compilerParams = new CompilerParameters
@@ -30,6 +30,9 @@ namespace frameless
             compilerParams.ReferencedAssemblies.Add("mscorlib.dll");
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add("System.Management.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Runtime.Serialization.Json.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Runtime.Serialization.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Xml.dll");
 
             CompilerResults results = codeProvider.CompileAssemblyFromSource(compilerParams, code);
 
@@ -47,7 +50,6 @@ namespace frameless
                 Assembly assembly = results.CompiledAssembly;
                 Type type = assembly.GetType("Script");
                 MethodInfo method = type?.GetMethod("ExecuteAsync");
-
                 if (method == null)
                 {
                     return "No 'ExecuteAsync' method";
@@ -55,10 +57,8 @@ namespace frameless
                 try
                 {
                     object obj = Activator.CreateInstance(type);
-
-                    // Pass the parameters when invoking the method
-                    Task<string> task = (Task<string>)method.Invoke(obj, parameters);
-                    string result = await task;
+                    Task<object> task = (Task<object>)method.Invoke(obj, parameters);
+                    object result = await task;
                     return result ?? "no output.";
                 }
                 catch (Exception ex)

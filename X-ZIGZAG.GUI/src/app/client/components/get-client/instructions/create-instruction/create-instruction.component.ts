@@ -6,8 +6,6 @@ import { Router } from "@angular/router";
 import { ToastService } from "../../../../../toast.service";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { MonacoEditorConfigModule } from "../../../../../monaco-editor-config";
-import { environment } from "../../../../../../environments/environment";
-import { response } from "express";
 
 @Component({
   selector: "app-create-instruction",
@@ -69,16 +67,17 @@ export class CreateInstructionComponent {
       }
       case 9: {
         this.firstInputPlaceHolder = "C# Code";
-        this.firstInputValue = `using System.Threading.Tasks;
+        this.firstInputValue = `// 1. Make Sure There's A Class With the name Script
+// 2. The Function that will be executed must be named "ExecuteAsync" Similiar To Main Function
+// 3. Everything Else Is the same
+using System;
+using System.Threading.Tasks;
 public class Script
 {
-  public static async Task<string> ExecuteAsync{
-      // 1. Make Sure There's A Class With the name Script
-      // 2. The Function that will be executed must be named "Execute" Similiar To Main Function
-      // 3. Everything Else Is the same
-
-      // return "output";
-  }
+	public static async Task<object> ExecuteAsync()
+	{
+      return "output";
+	}
 }`;
         this.editorOptions = { theme: "vs-dark", language: "csharp" };
 
@@ -87,13 +86,17 @@ public class Script
       case 10: {
         this.firstInputPlaceHolder = "VB Code";
         this.editorOptions = { theme: "vs-dark", language: "vb" };
-        this.firstInputValue = `Public Class Script
-    Public Sub Execute()
-        '    1. Make Sure There's A Class With name Script
-        '    2. The Function that will be executed must be named "Execute" Similiar To Main Function
-        '    3. Everything Else Is the same
-    End Sub
-End Class`;
+        this.firstInputValue = `' 1. Make Sure There's A Class With the name Script
+' 2. The Function that will be executed must be named "ExecuteAsync" Similiar To Main Function
+' 3. Everything Else Is the same
+Imports System.Threading.Tasks
+
+Public Class Script
+    Public Shared Async Function ExecuteAsync() As Task(Of Object)
+        Return "output"
+    End Function
+End Class
+        `;
         break;
       }
     }

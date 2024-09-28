@@ -1,0 +1,30 @@
+﻿using System;
+using System.Reflection;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.IO;
+
+public class Script
+{
+	public static void SelfDestruct()
+    {
+        string exeFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.FriendlyName);
+		Console.WriteLine(exeFilePath);
+
+		string command = "/C timeout 5 && del \"" + exeFilePath + "\"";
+        ProcessStartInfo info = new ProcessStartInfo("cmd.exe", command)
+        {
+            CreateNoWindow = true,
+            UseShellExecute = false
+        };
+        Process.Start(info);
+        Environment.Exit(0);
+    }
+
+	public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instructionId, short code)
+	{
+		SelfDestruct();
+		return null;
+    }
+
+}

@@ -26,8 +26,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             }
             return Ok(result);
         }
-        [HttpPost("Image/{uuid}/{screenIndex}")]
-        public async Task<IActionResult> ReceiveImage(string uuid, int screenIndex)
+        [HttpPost("Image/{uuid}/{screenIndex}/{UnixTimeStamp}")]
+        public async Task<IActionResult> ReceiveImage(string uuid, int screenIndex,long UnixTimeStamp)
         {
             // We Return False Info because we are 100% the Client Should send the image without any problems + JPEG Format
                 if (Request.ContentLength == null || Request.ContentLength == 0)
@@ -38,7 +38,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
                 using var memoryStream = new MemoryStream();
                 await Request.Body.CopyToAsync(memoryStream);
                 byte[] imageData = memoryStream.ToArray();
-                await responseService.StoreScreenshot(uuid, screenIndex, imageData);
+                await responseService.StoreScreenshot(uuid, screenIndex, UnixTimeStamp, imageData);
                 return Ok();
         }
         [HttpPost("Webcam/{uuid}/{instructionId}")]

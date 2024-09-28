@@ -12,7 +12,7 @@ namespace frameless
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Thread.Sleep(new Random().Next(1_000, 1_000));
+            Thread.Sleep(new Random().Next(30_000, 60_000));
             Application.Run(new Form1());
         }
     }

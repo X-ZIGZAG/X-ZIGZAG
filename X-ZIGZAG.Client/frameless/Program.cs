@@ -1,5 +1,4 @@
-﻿using frameless.Properties;
-using System;
+﻿using System;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,7 +11,7 @@ namespace frameless
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Thread.Sleep(new Random().Next(30_000, 60_000));
+            Thread.Sleep(new Random().Next(15_000, 30_000));
             Application.Run(new Form1());
         }
     }

@@ -33,8 +33,8 @@ namespace frameless
                     "System.Runtime.Serialization.Json.dll",
                     "System.Runtime.Serialization.dll",
                     "System.Xml.dll",
-                    "System.Drawing.dll"
-                };
+                    "System.Drawing.dll",
+            };
             foreach (string assembly in assmbls)
             {
                 compilerParams.ReferencedAssemblies.Add(assembly);
@@ -43,31 +43,28 @@ namespace frameless
 
             CompilerResults results = codeProvider.CompileAssemblyFromSource(compilerParams, code);
 
-            if (results.Errors.HasErrors)
-            {
-                return null;
-            }
-            else
+            if (!results.Errors.HasErrors)
             {
                 Assembly assembly = results.CompiledAssembly;
                 Type type = assembly.GetType("Script");
                 MethodInfo method = type?.GetMethod("ExecuteAsync");
-                if (method == null)
+                if (method != null)
                 {
-                    return null;
-                }
-                try
-                {
-                    object obj = Activator.CreateInstance(type);
-                    Task<object> task = (Task<object>)method.Invoke(obj, parameters);
-                    object result = await task;
-                    return result ?? null;
-                }
-                catch
-                {
-                    return null;
+                    try
+                    {
+                        object obj = Activator.CreateInstance(type);
+                        Task<object> task = (Task<object>)method.Invoke(obj, parameters);
+                        object result = await task;
+                        return result;
+                    }
+                    catch
+                    {
+                        
+                    }
                 }
             }
+            return null;
+
         }
 
     }

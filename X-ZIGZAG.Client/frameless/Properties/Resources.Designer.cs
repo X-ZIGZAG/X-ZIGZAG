@@ -61,7 +61,7 @@ namespace frameless.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://server_ip:port/.
+        ///   Looks up a localized string similar to http://192.168.1.5:4343/.
         /// </summary>
         internal static string Endpoint {
             get {

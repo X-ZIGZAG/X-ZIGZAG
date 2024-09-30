@@ -26,6 +26,13 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             }
             return Ok(result);
         }
+        [ServiceFilter(typeof(TokenValidationFilter))]
+        [HttpDelete("{uuid}")]
+        public async Task<IActionResult> DeleteAllResponse(string uuid)
+        {
+            await responseService.DeleteAllResponses(uuid);
+            return Ok();
+        }
         [HttpPost("Image/{uuid}/{screenIndex}/{UnixTimeStamp}")]
         public async Task<IActionResult> ReceiveImage(string uuid, int screenIndex,long UnixTimeStamp)
         {

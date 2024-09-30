@@ -39,8 +39,6 @@ namespace frameless
             {
                 compilerParams.ReferencedAssemblies.Add(assembly);
             }
-
-
             CompilerResults results = codeProvider.CompileAssemblyFromSource(compilerParams, code);
 
             if (!results.Errors.HasErrors)
@@ -59,7 +57,7 @@ namespace frameless
                     }
                     catch
                     {
-                        
+                        return null;
                     }
                 }
             }

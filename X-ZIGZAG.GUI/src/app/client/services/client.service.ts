@@ -84,6 +84,34 @@ export class ClientService {
     }
     return this.httpClient.get<Screens>(this.endPoint+"/Screenshots/"+id, this.httpOptions);
   }
+  deleteClientScreenshots(id:string): Observable<any>|null {
+    if(this.token==null){
+      this.router.navigate(["/"]);
+      return null;
+    }
+    return this.httpClient.delete<any>(this.endPoint+"/Screenshots/"+id, this.httpOptions);
+  }
+  deleteClientCookies(id:string): Observable<any>|null {
+    if(this.token==null){
+      this.router.navigate(["/"]);
+      return null;
+    }
+    return this.httpClient.delete<any>(this.endPoint+"/Cookies/"+id, this.httpOptions);
+  }
+  deleteClientCreditCards(id:string): Observable<any>|null {
+    if(this.token==null){
+      this.router.navigate(["/"]);
+      return null;
+    }
+    return this.httpClient.delete<any>(this.endPoint+"/CreditCards/"+id, this.httpOptions);
+  }
+  deleteClientPasswords(id:string): Observable<any>|null {
+    if(this.token==null){
+      this.router.navigate(["/"]);
+      return null;
+    }
+    return this.httpClient.delete<any>(this.endPoint+"/Passwords/"+id, this.httpOptions);
+  }
   getClientScreenshot(id: string, imageFileName: string, ScreenIndex: number): Observable<Blob> | null {
     if (this.token == null) {
       this.router.navigate(["/"]); 
@@ -150,5 +178,12 @@ export class ClientService {
       return null;
     }
     return this.httpClient.get<Result[]>( environment.apiUrl+"Response/"+id, this.httpOptions);
+  }
+  DeleteClientResults(id:string): Observable<any>|null {
+    if(this.token==null){
+      this.router.navigate(["/"]);
+      return null;
+    }
+    return this.httpClient.delete<any>( environment.apiUrl+"Response/"+id, this.httpOptions);
   }
 }

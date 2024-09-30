@@ -1,6 +1,20 @@
 .selected {
   background-color: rgb(7, 105, 150);
 }
+.deleteBTN{
+  margin-top: 25px;
+  a{
+    border: 1px solid rgb(247, 38, 38);
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 15px;
+  }
+  a:hover{
+    background-color: rgb(248, 120, 0);
+    color: black;
+  }
+}
 .DisplayButtons{
     display: flex;
     gap:50px;

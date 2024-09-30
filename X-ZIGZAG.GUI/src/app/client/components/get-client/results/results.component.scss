@@ -1,3 +1,16 @@
+.deleteBTN{
+  margin-bottom: 25px;
+  a{
+    border: 1px solid rgb(247, 38, 38);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  a:hover{
+    background-color: rgb(248, 120, 0);
+    color: black;
+  }
+}
 #Results {
   border-collapse: collapse;
   width: 1200px;

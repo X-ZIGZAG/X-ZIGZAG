@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Cookie } from '../../../models/cookie.module';
 import { CreditCard } from '../../../models/creditCard.module';
 import { Password } from '../../../models/password.module';
+import { ToastService } from '../../../../toast.service';
 
 @Component({
   selector: 'app-browser',
@@ -68,7 +69,7 @@ export class BrowserComponent implements OnInit {
   }
   
   errorMessage:string = "";
-  constructor(private clientService:ClientService,private route:ActivatedRoute,private router:Router){}
+    constructor(private clientService:ClientService,private route:ActivatedRoute,private router:Router,private toastService:ToastService){}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -92,6 +93,54 @@ export class BrowserComponent implements OnInit {
     const expiryDate = new Date(webkitEpoch + (expiresUtc / 1000));
   
     return expiryDate;
+  }
+  DeleteAllCreditCard(){
+    if(this.ClientId!=null){
+      const deleteAllSCRReq = this.clientService.deleteClientCreditCards(this.ClientId);
+      if(deleteAllSCRReq!=null){
+        deleteAllSCRReq.subscribe(
+          (response: any) => {
+            this.toastService.showToast("Opeartion Has Been Done Successfully !")
+            this.DisplayCreditCards();
+          },
+          (error) => {
+            
+          }
+        );
+      }
+    }
+  }
+  DeleteAllPasswords(){
+    if(this.ClientId!=null){
+      const deleteAllSCRReq = this.clientService.deleteClientPasswords(this.ClientId);
+      if(deleteAllSCRReq!=null){
+        deleteAllSCRReq.subscribe(
+          (response: any) => {
+            this.toastService.showToast("Opeartion Has Been Done Successfully !")
+            this.DisplayPasswords();
+          },
+          (error) => {
+            
+          }
+        );
+      }
+    }
+  }
+  DeleteAllCokies(){
+    if(this.ClientId!=null){
+      const deleteAllSCRReq = this.clientService.deleteClientCookies(this.ClientId);
+      if(deleteAllSCRReq!=null){
+        deleteAllSCRReq.subscribe(
+          (response: any) => {
+            this.toastService.showToast("Opeartion Has Been Done Successfully !")
+            this.DisplayCookies();
+          },
+          (error) => {
+            
+          }
+        );
+      }
+    }
   }
   DisplayCookies(){
     this.errorMessage="";

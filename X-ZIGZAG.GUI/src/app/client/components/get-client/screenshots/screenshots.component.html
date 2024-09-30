@@ -12,8 +12,13 @@
     </div>
   </div>
   <div class="ScreenshotRequest">
-  <a (click)="OneScreenShot()">Request One ScreenShot </a>
-  <a (click)="Settings()">Custom Duration </a>
+    <div>
+      <a (click)="OneScreenShot()">Request One ScreenShot </a>
+      <a (click)="Settings()">Custom Duration </a>
+    </div>
+    <div class="SCR_DLT">
+      <a (click)="DeleteAll()">Delete All </a>
+    </div>
   </div>
     
 <div *ngIf="showSettings" id="settings">

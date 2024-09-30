@@ -1,6 +1,6 @@
 ﻿namespace frameless
 {
-    partial class Form1
+    partial class Home
     {
         /// <summary>
         /// Required designer variable.
@@ -30,20 +30,21 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // Home
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(0, 0);
+            this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(0, 0);
+            this.ControlBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 1.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "";
+            this.Name = "Home";
             this.Opacity = 0D;
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "";
             this.ResumeLayout(false);
-
 
         }
 

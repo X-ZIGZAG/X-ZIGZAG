@@ -34,6 +34,9 @@
   </div>
   <div *ngIf="!loading">
     <div *ngIf="showCookies" id="cookies">
+      <div class="deleteBTN">
+        <a (click)="DeleteAllCokies()">Delete All</a>
+      </div>
       <h2>Cookies</h2>
       <table>
         <tr>
@@ -53,6 +56,9 @@
       </table>
     </div>
     <div *ngIf="showCreditCard" id="CreditCards">
+      <div class="deleteBTN">
+        <a (click)="DeleteAllCreditCard()">Delete All</a>
+      </div>
       <h2>Credit Cards</h2>
       <table>
         <tr>
@@ -72,6 +78,9 @@
       </table>
     </div>
     <div *ngIf="showPasswords" id="Passwords">
+      <div class="deleteBTN">
+        <a (click)="DeleteAllPasswords()">Delete All</a>
+      </div>
       <h2>Passwords</h2>
       <table>
         <tr>

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClientService } from '../../../services/client.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Result } from '../../../models/response.module';
+import { ToastService } from '../../../../toast.service';
 
 @Component({
   selector: 'app-results',
@@ -19,7 +20,9 @@ export class ResultsComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastService:ToastService
+
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((param) => {
@@ -28,6 +31,24 @@ export class ResultsComponent implements OnInit {
         this.router.navigate(['/Client']);
       }
     });
+    this.loadData();
+    
+  }
+  DeleteAll(){
+    if (this.ClientId != null) {
+      const ResultsReq = this.clientService.DeleteClientResults(this.ClientId);
+      if (ResultsReq != null) {
+        ResultsReq.subscribe(
+          (response) => {
+            this.toastService.showToast("Opeartion Has Been Done Successfully !")
+            this.loadData();
+          },
+          (error) => {}
+        );
+      }
+    }
+  }
+  loadData(){
     if (this.ClientId != null) {
       const ResultsReq = this.clientService.GetClientResults(this.ClientId);
       if (ResultsReq != null) {

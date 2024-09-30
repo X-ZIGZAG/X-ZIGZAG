@@ -35,7 +35,12 @@ export class ScreenshotsComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.ClientId = params.get('id');
+         this.ClientId = params.get('id');
+          this.LoadScreenshots();
+    });
+  }
+  screenshotUrl: SafeUrl | null = null;
+  LoadScreenshots(){
       if (this.ClientId == null) {
         this.router.navigate(['/Client']);
       } else {
@@ -71,10 +76,7 @@ export class ScreenshotsComponent implements OnInit {
           );
         }
       }
-    });
   }
-  screenshotUrl: SafeUrl | null = null;
-
   ShowImage(ScreenIndex: number, imagePath: string) {
     this.ErrorMessage = '';
     if (this.ClientId != null) {
@@ -149,6 +151,22 @@ export class ScreenshotsComponent implements OnInit {
       this.showSettings = false;
     } else {
       this.showSettings = true;
+    }
+  }
+  DeleteAll() {
+    if(this.ClientId!=null){
+      const deleteAllSCRReq = this.clientService.deleteClientScreenshots(this.ClientId);
+      if(deleteAllSCRReq!=null){
+        deleteAllSCRReq.subscribe(
+          (response: any) => {
+            this.toastService.showToast("Opeartion Has Been Done Successfully !")
+            this.LoadScreenshots();
+          },
+          (error) => {
+            this.ErrorMessage = 'Error loading image';
+          }
+        );
+      }
     }
   }
   OneScreenShot() {

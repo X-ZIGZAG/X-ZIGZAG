@@ -49,12 +49,12 @@ For a comprehensive installation guide, please refer to the release section of o
 Get started with ease by following the detailed instructions provided there!
 
 ## 📃 To-Do List
-- [ ] 👻 Improve Undetectability
-- [ ] ⚡ Optimize Size
+- [ ] 📄 Firefox Browser Data
 - [ ] 📸 Webcam (Not stable and too risky)
 - [ ] 📝 Keylogger (Doesn't support all keyboard layouts)
-- [ ] 📄 Firefox Browser Data
 - [ ] 🔴 Live Interaction (Using sockets)
+- [x] 👻 Improve Undetectability
+- [x] ⚡ Optimize Size
 
 ## 🔧 Contribution
 

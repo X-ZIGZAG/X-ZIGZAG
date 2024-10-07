@@ -23,7 +23,8 @@ namespace X_ZIGZAG_SERVER_WEB_API.Data
             cache.Set(8, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BROWSER_COOKIES.txt")));
             cache.Set(9, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "CSHARP.txt")));
             cache.Set(10, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "VB.txt")));
-
+            cache.Set(11, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "MUTE_UNMUTE.txt")));
+      
             context.Database.EnsureCreated();
             if (context.Admins.Any())
             {

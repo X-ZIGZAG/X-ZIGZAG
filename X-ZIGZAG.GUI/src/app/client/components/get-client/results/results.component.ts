@@ -88,6 +88,8 @@ export class ResultsComponent implements OnInit {
           return "Execute C# Code";
       case 10:
           return "Execute VB Code";
+      case 11:
+          return "Mute / Unmute Sound";
       case -1:
         return 'Destroy Himself';
       case -2:

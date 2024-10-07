@@ -59,7 +59,7 @@ namespace frameless.Properties {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to http://server_ip:port/.
         /// </summary>

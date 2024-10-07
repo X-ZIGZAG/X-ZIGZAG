@@ -26,6 +26,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Data
             cache.Set(11, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "MUTE_UNMUTE.txt")));
             cache.Set(12, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "VOLUME_UP.txt")));
             cache.Set(13, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "VOLUME_DOWN.txt")));
+            cache.Set(14, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "BLOCK_USER_INPUT.txt")));
             context.Database.EnsureCreated();
             if (context.Admins.Any())
             {

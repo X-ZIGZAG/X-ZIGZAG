@@ -94,6 +94,8 @@ export class ResultsComponent implements OnInit {
             return "Volume Up";
       case 13:
             return "Volume Down";
+      case 14:
+            return "Block User Input";
       case -1:
         return 'Destroy Himself';
       case -2:

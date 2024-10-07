@@ -96,6 +96,8 @@ export class ResultsComponent implements OnInit {
             return "Volume Down";
       case 14:
             return "Block User Input";
+      case 15:
+            return "Unblock User Input";
       case -1:
         return 'Destroy Himself';
       case -2:

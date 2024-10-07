@@ -89,7 +89,9 @@ export class ResultsComponent implements OnInit {
       case 10:
           return "Execute VB Code";
       case 11:
-          return "Mute / Unmute Sound";
+            return "Mute / Unmute Sound";
+      case 12:
+            return "Volume Up";
       case -1:
         return 'Destroy Himself';
       case -2:

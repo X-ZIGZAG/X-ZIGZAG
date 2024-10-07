@@ -92,6 +92,8 @@ export class ResultsComponent implements OnInit {
             return "Mute / Unmute Sound";
       case 12:
             return "Volume Up";
+      case 13:
+            return "Volume Down";
       case -1:
         return 'Destroy Himself';
       case -2:

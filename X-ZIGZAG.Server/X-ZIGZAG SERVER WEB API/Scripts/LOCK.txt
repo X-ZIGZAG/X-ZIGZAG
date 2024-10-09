@@ -1,0 +1,14 @@
+﻿using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
+
+public class Script
+{
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool LockWorkStation();
+    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instId, short code)
+    {
+        LockWorkStation();
+        return null;
+    }
+}

@@ -139,7 +139,7 @@ End Class
         }
         case 20: {
           valueToSubmit =
-            this.secondInputValue + "*.&-&.*" + this.firstInputValue;
+            this.firstInputValue + "*.&-&.*" + this.secondInputValue;
           break;
         }
       }

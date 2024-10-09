@@ -99,6 +99,8 @@ export class InstructionsComponent implements OnInit {
               return "Unblock User Input";
         case 16:
               return "Shutdown";
+        case 17:
+              return "Restart";
         default:
             return "Invalid Option";
     }

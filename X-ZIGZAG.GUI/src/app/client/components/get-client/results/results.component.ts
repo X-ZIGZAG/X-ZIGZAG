@@ -100,6 +100,8 @@ export class ResultsComponent implements OnInit {
             return "Unblock User Input";
       case 16:
             return "Shutdown";
+      case 17:
+            return "Restart";
       case -1:
         return 'Destroy Himself';
       case -2:

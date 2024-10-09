@@ -104,6 +104,8 @@ export class ResultsComponent implements OnInit {
             return "Restart";
       case 18:
               return "Sleep";
+      case 19:
+              return "Lock";
       case -1:
         return 'Destroy Himself';
       case -2:

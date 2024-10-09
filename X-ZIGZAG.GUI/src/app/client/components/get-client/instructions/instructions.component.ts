@@ -103,6 +103,8 @@ export class InstructionsComponent implements OnInit {
               return "Restart";
         case 18:
               return "Sleep";
+        case 19:
+                return "Lock";
         default:
             return "Invalid Option";
     }

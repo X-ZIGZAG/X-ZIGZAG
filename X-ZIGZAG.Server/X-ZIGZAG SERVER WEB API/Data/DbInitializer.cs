@@ -30,6 +30,7 @@ namespace X_ZIGZAG_SERVER_WEB_API.Data
             cache.Set(15, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "UNBLOCK_USER_INPUT.txt")));
             cache.Set(16, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "SHUTDOWN.txt")));
             cache.Set(17, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "RESTART.txt")));
+            cache.Set(18, ReadTextFile(Path.Combine(hostEnvironment.ContentRootPath, "Scripts", "SLEEP.txt")));
             context.Database.EnsureCreated();
             if (context.Admins.Any())
             {

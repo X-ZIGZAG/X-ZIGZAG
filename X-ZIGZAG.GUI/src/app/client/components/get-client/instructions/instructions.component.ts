@@ -105,6 +105,8 @@ export class InstructionsComponent implements OnInit {
               return "Sleep";
         case 19:
                 return "Lock";
+        case 20:
+                return "PopUp Messages";
         default:
             return "Invalid Option";
     }

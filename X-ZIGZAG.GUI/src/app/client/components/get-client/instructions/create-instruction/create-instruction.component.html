@@ -25,11 +25,12 @@
           <option value="17">Restart</option>
           <option value="18">Sleep</option>
           <option value="19">Lock</option>
+          <option value="20">Popup Message</option>
           <option value="-1">Destroy Himself</option>
           <option value="-2">Update Info</option>
       </select>
   <input
-    *ngIf="(selectedOption >= 0 && selectedOption < 4)"
+    *ngIf="(selectedOption >= 0 && selectedOption < 4) || selectedOption==20"
     type="text"
     [placeholder]="firstInputPlaceHolder"
     [(ngModel)]="firstInputValue"
@@ -37,7 +38,7 @@
   />
   
   <input
-    *ngIf="selectedOption === 1"
+    *ngIf="selectedOption === 1 || selectedOption==20"
     type="text"
     [placeholder]="secondInputPlaceHolder"
     [(ngModel)]="secondInputValue"

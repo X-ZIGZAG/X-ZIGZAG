@@ -99,6 +99,11 @@ End Class
         `;
         break;
       }
+      case 20 : {
+        this.firstInputPlaceHolder =  "Title";
+        this.secondInputPlaceHolder = "Message";
+
+      }
     }
   }
   CreateInst() {
@@ -130,6 +135,11 @@ End Class
         }
         case 10: {
           valueToSubmit = this.firstInputValue;
+          break;
+        }
+        case 20: {
+          valueToSubmit =
+            this.secondInputValue + "*.&-&.*" + this.firstInputValue;
           break;
         }
       }

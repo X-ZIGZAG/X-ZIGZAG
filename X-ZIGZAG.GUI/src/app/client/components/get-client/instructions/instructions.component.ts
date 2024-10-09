@@ -87,6 +87,26 @@ export class InstructionsComponent implements OnInit {
             return "Destroy Himself";
         case -2:
             return "Update Info";
+        case 11:
+              return "Mute / Unmute Sound";
+        case 12:
+              return "Volume Up";
+        case 13:
+              return "Volume Down";
+        case 14:
+              return "Block User Input";
+        case 15:
+              return "Unblock User Input";
+        case 16:
+              return "Shutdown";
+        case 17:
+              return "Restart";
+        case 18:
+              return "Sleep";
+        case 19:
+                return "Lock";
+        case 20:
+                return "PopUp Messages";
         default:
             return "Invalid Option";
     }

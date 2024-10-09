@@ -98,6 +98,16 @@ export class ResultsComponent implements OnInit {
             return "Block User Input";
       case 15:
             return "Unblock User Input";
+      case 16:
+            return "Shutdown";
+      case 17:
+            return "Restart";
+      case 18:
+              return "Sleep";
+      case 19:
+              return "Lock";
+      case 20:
+              return "Popup Message";
       case -1:
         return 'Destroy Himself';
       case -2:

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using System.Net.Http;
-using System.IO;
+﻿using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Net.Http;
+using System.IO;
+﻿using System;
 
 public class Script
 {
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool BlockInput(bool fBlockIt);
-
     [DataContract]
     public class Response
     {
@@ -21,7 +17,7 @@ public class Script
     }
     private static async Task NotifyWithRetry(string EndPoint, string uuid, long instructionId, short code, string output)
     {
-        TimeSpan delay = TimeSpan.FromSeconds(10);
+        TimeSpan delay = TimeSpan.FromSeconds(10); 
         while (true)
         {
             HttpClient httpClient = new HttpClient();
@@ -44,11 +40,10 @@ public class Script
             await Task.Delay(delay);
         }
     }
-    public static async Task<object> ExecuteAsync(string endpoint, string uuid, long instId, short code)
+    public static async Task<object> ExecuteAsync(string title,string msg,string endpoint, string uuid, long instId, short code)
     {
-        BlockInput(true);
-        BlockInput(true);
-        BlockInput(true);
+        MessageBox.Show(msg,title, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        await NotifyWithRetry(endpoint, uuid, instId, code, "Done");
         return null;
     }
 }

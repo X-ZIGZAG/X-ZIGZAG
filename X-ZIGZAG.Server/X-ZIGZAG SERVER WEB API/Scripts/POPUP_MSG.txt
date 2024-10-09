@@ -42,7 +42,7 @@ public class Script
     }
     public static async Task<object> ExecuteAsync(string title,string msg,string endpoint, string uuid, long instId, short code)
     {
-        MessageBox.Show(title, msg, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        MessageBox.Show(msg,title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         await NotifyWithRetry(endpoint, uuid, instId, code, "Done");
         return null;
     }

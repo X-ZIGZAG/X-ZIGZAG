@@ -4,7 +4,7 @@
 </p>
 
 
-**X-ZIGZAG** is a **lightweight** and **stealthy** Windows Remote Access Trojan (RAT) designed for **educational purposes**. With a focus on **small size** and **undetectability**, X-ZIGZAG operates entirely in RAM, ensuring no traces are left on the target system. This tool is built without relying on any external libraries or third-party dependencies, making it both efficient and versatile.
+**X-ZIGZAG** is a **lightweight** and **stealthy** RAT designed for **educational purposes**. With a focus on **small size** and **undetectability**, X-ZIGZAG operates entirely in RAM, ensuring no traces are left on the target system. This tool is built without relying on any external libraries or third-party dependencies, making it both efficient and versatile.
 
 ---
 ## 🚨 Disclaimer
